@@ -18,7 +18,7 @@ public class Lesson3_HW {
 
 
     @Before
-    public void StartUp() {
+    public void startUp() {
         config = ConfigFactory.create(TestConfig.class);
         WebDriverManager.chromedriver().setup();
         driver = new ChromeDriver();
@@ -26,14 +26,14 @@ public class Lesson3_HW {
     }
 
     @After
-    public void End() {
+    public void end() {
         if (driver != null)
             driver.quit();
         logger.info("Драйвер закрыт");
     }
 
     @Test
-    public void WebDriverTest() {
+    public void webDriverTest() {
 
         driver.get(config.hostname());
         logger.info("Сайт открыт");
