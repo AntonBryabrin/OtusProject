@@ -35,10 +35,10 @@ public class Lesson3_HW {
     @Test
     public void webDriverTest() {
 
-        driver.get(config.hostname());
+        driver.get(config.hostnameOtus());
         logger.info("Сайт открыт");
         String actual = driver.getTitle();
-        Assert.assertEquals(config.title(), actual);
+        Assert.assertEquals(config.titleOtus(), actual);
 
 
     }

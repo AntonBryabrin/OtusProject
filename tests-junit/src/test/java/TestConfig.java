@@ -5,11 +5,20 @@ import java.net.URL;
 
 @Config.Sources({"classpath:general.properties"})
 public interface TestConfig extends Config {
-    @Config.Key("host")
+    @Config.Key("hostnameOtus")
     @DefaultValue("")
-    String hostname();
+    String hostnameOtus();
 
+    @Config.Key("titleOtus")
     @DefaultValue("")
-    String title();
+    String titleOtus();
+
+    @Config.Key("titleTele2")
+    @DefaultValue("")
+    String titleTele2();
+
+    @Config.Key("otusFaqCheckAnswer")
+    @DefaultValue("")
+    String otusFaqCheckAnswer();
 
 }
