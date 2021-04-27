@@ -3,11 +3,22 @@ import org.aeonbits.owner.Config;
 
 import java.net.URL;
 
+@Config.Sources({"classpath:general.properties"})
 public interface TestConfig extends Config {
-    @DefaultValue("https://otus.ru")
-    String hostname();
+    @Config.Key("hostnameOtus")
+    @DefaultValue("")
+    String hostnameOtus();
 
-    @DefaultValue("Онлайн‑курсы для профессионалов, дистанционное обучение современным профессиям")
-    String title();
+    @Config.Key("titleOtus")
+    @DefaultValue("")
+    String titleOtus();
+
+    @Config.Key("titleTele2")
+    @DefaultValue("")
+    String titleTele2();
+
+    @Config.Key("otusFaqCheckAnswer")
+    @DefaultValue("")
+    String otusFaqCheckAnswer();
 
 }
