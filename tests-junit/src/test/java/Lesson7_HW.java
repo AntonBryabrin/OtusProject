@@ -9,6 +9,8 @@ import org.junit.Test;
 import org.openqa.selenium.By;
 import org.openqa.selenium.WebDriver;
 import org.openqa.selenium.chrome.ChromeDriver;
+import org.openqa.selenium.firefox.FirefoxDriver;
+import org.openqa.selenium.remote.DesiredCapabilities;
 import org.openqa.selenium.support.ui.ExpectedConditions;
 import org.openqa.selenium.support.ui.WebDriverWait;
 
@@ -28,7 +30,10 @@ public class Lesson7_HW {
         driver = new ChromeDriver();
         logger.info("Драйвер поднят");
         driver.manage().timeouts().implicitlyWait(3, TimeUnit.SECONDS);
-        driver.manage().window().maximize();
+
+
+
+
 
     }
 
@@ -43,6 +48,7 @@ public class Lesson7_HW {
 
     @Test
     public void otusContactsAddressCheck() throws InterruptedException {
+
         driver.get(config.hostnameOtus());
         logger.info("Открыта страница отус");
         driver.findElement(By.xpath("//a[@href='/contacts/']")).click();
@@ -56,7 +62,7 @@ public class Lesson7_HW {
     @Test
     public void tele2Check() throws InterruptedException {
         WebDriverWait wait = new WebDriverWait(driver, 2);
-        //driver.manage().timeouts().implicitlyWait(3,TimeUnit.SECONDS);
+
         driver.manage().window().maximize();
         driver.get("https://msk.tele2.ru/shop/number");
         logger.info("Открыта страница tele2");
@@ -89,7 +95,7 @@ public class Lesson7_HW {
     }
 
     @Test
-    public void OtusSubscribeСheck() throws InterruptedException {
+    public void otusSubscribeСheck() throws InterruptedException {
         WebDriverWait wait = new WebDriverWait(driver, 2);
         driver.get(config.hostnameOtus());
         logger.info("Открыта страница отус");
