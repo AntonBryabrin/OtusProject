@@ -21,4 +21,8 @@ public interface TestConfig extends Config {
     @DefaultValue("")
     String otusFaqCheckAnswer();
 
+    @Config.Key("hostnameYandexMarket")
+    @DefaultValue("")
+    String hostnameYandexMarket();
+
 }
