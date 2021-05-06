@@ -32,7 +32,6 @@ public class Lesson8_HW {
         WebDriverManager.chromedriver().setup();
         driver = new ChromeDriver();
         logger.info("Драйвер поднят");
-        driver.manage().timeouts().implicitlyWait(3, TimeUnit.SECONDS);
 
 
     }
@@ -47,104 +46,97 @@ public class Lesson8_HW {
 
 
     @Test
-    public void otusContactsAddressCheck() throws InterruptedException {
-        WebDriverWait wait = new WebDriverWait(driver, 2);
+    public void marketCompareItemsCheck() {
+        WebDriverWait wait = new WebDriverWait(driver, 15);
         Actions action = new Actions(driver);
+
+        By elektronikaLinkLocator = By.xpath("//a[@href='/catalog--elektronika/54440']");
+        By smartsLinkLocator = By.xpath("//li/div/a[contains(text(),'Смартфоны')]");
+        By filterSamsungLocator = By.xpath("//div/span[contains(text(), 'Samsung')]");
+        By filterXiaomiLocator = By.xpath("//div/span[contains(text(), 'Xiaomi')]");
+        By filterPriceLocator = By.xpath("//button[@data-autotest-id = 'dprice']");
+        By samsungBlockLocator = By.xpath("//article[contains(@data-autotest-id, 'product-snippet') and .//span[contains(text(), 'Samsung')]][1]");
+        By samsungBlockLinkNameLocator = By.xpath(".//h3/a[contains(@title,'Смартфон')]");
+        By compareButtonLocator = By.xpath(".//div[contains(@aria-label, 'сравнению')]");
+        By samsungPopupCompareLocator = By.xpath("//div[@data-apiary-widget-id = '/content/popupInformer']/div/div/div/div[contains(text(), samsungItemName)]");
+        By xiaomiBlockLocator = By.xpath("//article[contains(@data-autotest-id, 'product-snippet') and .//span[contains(text(), 'Xiaomi')]][1]");
+        By xiaomiBlockLinkNameLocator = By.xpath(".//h3/a[contains(@title,'Смартфон')]");
+        By xiaomiPopupCompareLocator = By.xpath("//div[@data-apiary-widget-id = '/content/popupInformer']/div/div/div/div[contains(text(), xiaomiItemName)]");
+        By compareLinkLocator = By.xpath("//a[@href = '/my/compare-lists']");
+        By itemsLinksLocator = By.xpath("//a[contains(text(), 'Смартфон')]");
+        By preloaderLocator = By.xpath("//body/div[2]/div[3]/div[3]/div[4]/div[1]/div[1]/div[1]/div[1]/div[2]/div[1]/div[1]");
+
+
         driver.get(config.hostnameYandexMarket());
         logger.info("Открыта страница маркета");
-        Thread.sleep(2000);
-        driver.findElement(By.xpath("//a[@href='/catalog--elektronika/54440']")).click();
-        Thread.sleep(2000);
+        wait.until(ExpectedConditions.elementToBeClickable(elektronikaLinkLocator));
+        driver.findElement(elektronikaLinkLocator).click();
         logger.info("Переход в электронику");
-        Thread.sleep(2000);
-        driver.findElement(By.xpath("//li/div/a[contains(text(),'Смартфоны')]")).click();
-        Thread.sleep(2000);
-        driver.findElement(By.xpath("//div/span[contains(text(), 'Samsung')]")).click();
-        Thread.sleep(4000);
-        driver.findElement(By.xpath("//div/span[contains(text(), 'Xiaomi')]")).click();
-        Thread.sleep(2000);
-        driver.findElement(By.xpath("//button[@data-autotest-id = 'dprice']")).click();
-        logger.info("сортировка");
-        Thread.sleep(2000);
+        wait.until(ExpectedConditions.elementToBeClickable(smartsLinkLocator));
+        driver.findElement(smartsLinkLocator).click();
+        logger.info("Переход в смартфоны");
+
+// Фильтры сортировка
+
+        wait.until(ExpectedConditions.elementToBeClickable(filterSamsungLocator));
+        driver.findElement(filterSamsungLocator).click();
+        logger.info("Отфильтровано по самсунгу");
+        wait.until(ExpectedConditions.elementToBeClickable(filterXiaomiLocator));
+        driver.findElement(filterXiaomiLocator).click();
+        logger.info("Отфильтровано по сяоми");
+        wait.until(ExpectedConditions.elementToBeClickable(filterPriceLocator));
+        driver.findElement(filterPriceLocator).click();
+        logger.info("Отсортировано по цене");
 
 
+// Работа в карточке товара Самсунг
 
-
-        WebElement samsungBlock = driver.findElement(By.xpath("//article[contains(@data-autotest-id, 'product-snippet') and .//span[contains(text(), 'Samsung')]][1]"));
+        wait.until(ExpectedConditions.invisibilityOfElementLocated(preloaderLocator));
+        WebElement samsungBlock = driver.findElement(samsungBlockLocator);
         logger.info("Найден блок самсунга");
-        WebElement samsungBlockName = samsungBlock.findElement(By.xpath("//h3/a[contains(@title,'Смартфон Samsung')]"));
-        logger.info("Найден title товара в блоке самсунга");
-        String samsungItemName = samsungBlockName.getAttribute("title");
-        logger.info("samsungItemName = "+ samsungItemName);
-        Thread.sleep(2000);
+        wait.until(ExpectedConditions.elementToBeClickable(samsungBlockLinkNameLocator));
+        WebElement samsungBlockLinkName = samsungBlock.findElement(samsungBlockLinkNameLocator);
+        logger.info("Найдена ссылка на товар в блоке самсунга");
+        String samsungItemName = samsungBlockLinkName.getAttribute("title"); // Берем title так как ссылка содержит лишний текст
+        logger.info("Найден tile товара");
+        logger.info("samsungItemName = " + samsungItemName);
         action.moveToElement(samsungBlock).perform();
-        logger.info("перемещена мышка на блок самсунга");
-        Thread.sleep(4000);
-        samsungBlock.findElement(By.xpath("//div[contains(@aria-label, 'сравнению')]")).click();
-        logger.info("нажатие на кнопку добавления к сравнению");
-        Thread.sleep(2000);
-        wait.until(ExpectedConditions.visibilityOfElementLocated(By.xpath("//div[@data-apiary-widget-id = '/content/popupInformer']/div/div/div/div[contains(text(), samsungItemName)]")));
+        logger.info("Перемещена мышка на блок самсунга");
+        wait.until(ExpectedConditions.visibilityOfElementLocated(compareButtonLocator));
+        samsungBlock.findElement(compareButtonLocator).click();
+        logger.info("нажатие на кнопку добавления к сравнению прошло");
+        wait.until(ExpectedConditions.visibilityOfElementLocated(samsungPopupCompareLocator)); //Ждем появления всплывашки с именем добавленного товара
         logger.info("всплывашка добавления к сравнению появилась");
 
-        /*
-        Thread.sleep(2000);
-        String samsungPopupName = driver.findElement(By.xpath("//div[@data-apiary-widget-id = '/content/popupInformer']/div/div/div/div[contains(text(), 'добавлен')]")).getText();
-        logger.info("samsungPopupName = "+ samsungPopupName);
+        // Работа в карточке товара Сяоми
 
-
-
-
-        assertTrue(samsungPopupName.contains(samsungItemName));
-        logger.info("Проверка что всплывашка содержит имя добавленного самсунга");
-*/
-        WebElement xiaomiBlock = driver.findElement(By.xpath("//article[contains(@data-autotest-id, 'product-snippet') and .//span[contains(text(), 'Xiaomi')]][1]"));
+        wait.until(ExpectedConditions.visibilityOfElementLocated(xiaomiBlockLocator));
+        WebElement xiaomiBlock = driver.findElement(xiaomiBlockLocator);
         logger.info("Найден блок Xiaomi");
-        WebElement xiaomiBlockName = xiaomiBlock.findElement(By.xpath("//h3/a[contains(@title,'Смартфон Xiaomi')]"));
-        Thread.sleep(2000);
+        WebElement xiaomiBlockLinkName = xiaomiBlock.findElement(xiaomiBlockLinkNameLocator);
         logger.info("Найден title товара в блоке xiaomi");
-        String xiaomiItemName = xiaomiBlockName.getAttribute("title");
-        logger.info("xiaomiItemName = "+ xiaomiItemName);
-        Thread.sleep(2000);
+        String xiaomiItemName = xiaomiBlockLinkName.getAttribute("title");
+        logger.info("xiaomiItemName = " + xiaomiItemName);
         action.moveToElement(xiaomiBlock).perform();
-        logger.info("перемещена мышка на блок самсунга");
-        Thread.sleep(2000);
-        xiaomiBlock.findElement(By.xpath("//div[contains(@aria-label, 'сравнению')]")).click();
-        logger.info("нажатие на кнопку добавления к сравнению");
-        Thread.sleep(2000);
-        wait.until(ExpectedConditions.visibilityOfElementLocated(By.xpath("//div[@data-apiary-widget-id = '/content/popupInformer']/div/div/div/div[contains(text(), xiaomiItemName)]")));
+        logger.info("перемещена мышка на блок сяоми");
+        wait.until(ExpectedConditions.visibilityOfElementLocated(compareButtonLocator));
+        xiaomiBlock.findElement(compareButtonLocator).click();
+        logger.info("нажатие на кнопку добавления к сравнению прошло");
+        wait.until(ExpectedConditions.visibilityOfElementLocated(xiaomiPopupCompareLocator)); //Ждем появления всплывашки с именем добавленного товара сяоми
         logger.info("всплывашка добавления к сравнению появилась");
-        Thread.sleep(2000);
-          
-        /*
-        String xiaomiPopupName = driver.findElement(By.xpath("//div[@data-apiary-widget-id = '/content/popupInformer']/div/div/div/div[contains(text(), 'добавлен')]")).getText();
-        logger.info("xiaomiPopupName = "+ xiaomiPopupName);
-        Thread.sleep(4000);
-        assertTrue(xiaomiPopupName.contains(xiaomiItemName));
-        logger.info("Проверка что всплывашка содержит имя добавленного сяоми");
+        wait.until(ExpectedConditions.elementToBeClickable(compareLinkLocator));
+        driver.findElement(compareLinkLocator).click();
+        logger.info("Переход к сравнению произошел");
 
-        */
+// Сравнение
 
-        driver.findElement(By.xpath("//a[@href = '/my/compare-lists']")).click();
-        List<WebElement> nums2 = driver.findElements(By.xpath("//a[contains(text(), 'Смартфон')]"));
-        Thread.sleep(4000);
+        wait.until(ExpectedConditions.visibilityOfElementLocated(itemsLinksLocator));
+        List<WebElement> nums2 = driver.findElements(itemsLinksLocator);
         int size = nums2.size();
-        Thread.sleep(2000);
-
         int expectedSize = 2;
         Assert.assertEquals(expectedSize, size);
-        logger.info("Проверка что список сравнения содержит два элемента");
-        Thread.sleep(8000);
+        logger.info("Проверка что список сравнения содержит два элемента прошла");
 
-
-
-
-
-        /*
-        String actual = driver.findElement(By.xpath("//div[contains(text(),'Адрес')]/following-sibling::div")).getText();
-        Assert.assertEquals("125167, г. Москва, Нарышкинская аллея., д. 5, стр. 2, тел. +7 499 938-92-02", actual);
-        logger.info("Адрес проверен");
-
-         */
 
     }
 
