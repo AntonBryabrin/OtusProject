@@ -21,7 +21,7 @@ import static org.junit.Assert.assertTrue;
 
 
 public class Lesson8_HW {
-    private Logger logger = LogManager.getLogger(Lesson3_HW.class);
+    private Logger logger = LogManager.getLogger(Lesson8_HW.class);
     protected static WebDriver driver;
     private TestConfig config;
 
@@ -124,7 +124,7 @@ public class Lesson8_HW {
         logger.info("нажатие на кнопку добавления к сравнению прошло");
         wait.until(ExpectedConditions.visibilityOfElementLocated(xiaomiPopupCompareLocator)); //Ждем появления всплывашки с именем добавленного товара сяоми
         logger.info("всплывашка добавления к сравнению появилась");
-        wait.until(ExpectedConditions.elementToBeClickable(compareLinkLocator));
+        wait.until(ExpectedConditions.visibilityOfElementLocated(compareLinkLocator));
         driver.findElement(compareLinkLocator).click();
         logger.info("Переход к сравнению произошел");
 
