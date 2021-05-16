@@ -7,6 +7,7 @@ import org.junit.Assert;
 import org.junit.Before;
 import org.junit.Test;
 import org.openqa.selenium.By;
+import org.openqa.selenium.JavascriptExecutor;
 import org.openqa.selenium.WebDriver;
 import org.openqa.selenium.WebElement;
 import org.openqa.selenium.chrome.ChromeDriver;
@@ -46,7 +47,7 @@ public class Lesson8_HW {
 
 
     @Test
-    public void marketCompareItemsCheck() {
+    public void marketCompareItemsCheck() throws InterruptedException {
         WebDriverWait wait = new WebDriverWait(driver, 15);
         Actions action = new Actions(driver);
 
@@ -72,22 +73,21 @@ public class Lesson8_HW {
         wait.until(ExpectedConditions.elementToBeClickable(elektronikaLinkLocator));
         driver.findElement(elektronikaLinkLocator).click();
         logger.info("Переход в электронику");
-        wait.until(ExpectedConditions.elementToBeClickable(smartsLinkLocator));
+        wait.until(ExpectedConditions.visibilityOfElementLocated(smartsLinkLocator));
         driver.findElement(smartsLinkLocator).click();
         logger.info("Переход в смартфоны");
 
 // Фильтры сортировка
 
-        wait.until(ExpectedConditions.elementToBeClickable(filterSamsungLocator));
+        wait.until(ExpectedConditions.visibilityOfElementLocated(filterSamsungLocator));
         driver.findElement(filterSamsungLocator).click();
         logger.info("Отфильтровано по самсунгу");
-        wait.until(ExpectedConditions.elementToBeClickable(filterXiaomiLocator));
+        wait.until(ExpectedConditions.visibilityOfElementLocated(filterXiaomiLocator));
         driver.findElement(filterXiaomiLocator).click();
         logger.info("Отфильтровано по сяоми");
-        wait.until(ExpectedConditions.elementToBeClickable(filterPriceLocator));
+        wait.until(ExpectedConditions.visibilityOfElementLocated(filterPriceLocator));
         driver.findElement(filterPriceLocator).click();
         logger.info("Отсортировано по цене");
-
 
 // Работа в карточке товара Самсунг
 
@@ -102,7 +102,7 @@ public class Lesson8_HW {
         logger.info("samsungItemName = " + samsungItemName);
         action.moveToElement(samsungBlock).perform();
         logger.info("Перемещена мышка на блок самсунга");
-        wait.until(ExpectedConditions.visibilityOfElementLocated(compareButtonLocator));
+        wait.until(ExpectedConditions.presenceOfElementLocated(compareButtonLocator));
         samsungBlock.findElement(compareButtonLocator).click();
         logger.info("нажатие на кнопку добавления к сравнению прошло");
         wait.until(ExpectedConditions.visibilityOfElementLocated(samsungPopupCompareLocator)); //Ждем появления всплывашки с именем добавленного товара
@@ -110,7 +110,6 @@ public class Lesson8_HW {
 
         // Работа в карточке товара Сяоми
 
-        wait.until(ExpectedConditions.visibilityOfElementLocated(xiaomiBlockLocator));
         WebElement xiaomiBlock = driver.findElement(xiaomiBlockLocator);
         logger.info("Найден блок Xiaomi");
         WebElement xiaomiBlockLinkName = xiaomiBlock.findElement(xiaomiBlockLinkNameLocator);
@@ -119,7 +118,7 @@ public class Lesson8_HW {
         logger.info("xiaomiItemName = " + xiaomiItemName);
         action.moveToElement(xiaomiBlock).perform();
         logger.info("перемещена мышка на блок сяоми");
-        wait.until(ExpectedConditions.visibilityOfElementLocated(compareButtonLocator));
+        wait.until(ExpectedConditions.presenceOfElementLocated(compareButtonLocator));
         xiaomiBlock.findElement(compareButtonLocator).click();
         logger.info("нажатие на кнопку добавления к сравнению прошло");
         wait.until(ExpectedConditions.visibilityOfElementLocated(xiaomiPopupCompareLocator)); //Ждем появления всплывашки с именем добавленного товара сяоми
