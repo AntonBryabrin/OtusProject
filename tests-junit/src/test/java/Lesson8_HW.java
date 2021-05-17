@@ -26,14 +26,12 @@ public class Lesson8_HW {
     protected static WebDriver driver;
     private TestConfig config;
 
-
     @Before
     public void startUp() {
         config = ConfigFactory.create(TestConfig.class);
         WebDriverManager.chromedriver().setup();
         driver = new ChromeDriver();
         logger.info("Драйвер поднят");
-
 
     }
 
@@ -45,10 +43,9 @@ public class Lesson8_HW {
 
     }
 
-
     @Test
     public void marketCompareItemsCheck() throws InterruptedException {
-        WebDriverWait wait = new WebDriverWait(driver, 15);
+        WebDriverWait wait = new WebDriverWait(driver, 25);
         Actions action = new Actions(driver);
 
         By elektronikaLinkLocator = By.xpath("//a[@href='/catalog--elektronika/54440']");
@@ -67,9 +64,10 @@ public class Lesson8_HW {
         By itemsLinksLocator = By.xpath("//a[contains(text(), 'Смартфон')]");
         By preloaderLocator = By.xpath("//body/div[2]/div[3]/div[3]/div[4]/div[1]/div[1]/div[1]/div[1]/div[2]/div[1]/div[1]");
 
-
+        driver.manage().window().maximize();
         driver.get(config.hostnameYandexMarket());
         logger.info("Открыта страница маркета");
+        Thread.sleep(25000);
         wait.until(ExpectedConditions.elementToBeClickable(elektronikaLinkLocator));
         driver.findElement(elektronikaLinkLocator).click();
         logger.info("Переход в электронику");
@@ -123,7 +121,7 @@ public class Lesson8_HW {
         logger.info("нажатие на кнопку добавления к сравнению прошло");
         wait.until(ExpectedConditions.visibilityOfElementLocated(xiaomiPopupCompareLocator)); //Ждем появления всплывашки с именем добавленного товара сяоми
         logger.info("всплывашка добавления к сравнению появилась");
-        wait.until(ExpectedConditions.visibilityOfElementLocated(compareLinkLocator));
+        wait.until(ExpectedConditions.elementToBeClickable(compareLinkLocator));
         driver.findElement(compareLinkLocator).click();
         logger.info("Переход к сравнению произошел");
 
@@ -136,9 +134,7 @@ public class Lesson8_HW {
         Assert.assertEquals(expectedSize, size);
         logger.info("Проверка что список сравнения содержит два элемента прошла");
 
-
     }
-
 
 }
 
