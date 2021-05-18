@@ -76,7 +76,7 @@ public class Lesson8_HW {
 
 // Фильтры сортировка
 
-        wait.until(ExpectedConditions.visibilityOfElementLocated(filterSamsungLocator));
+        wait.until(ExpectedConditions.presenceOfElementLocated(filterSamsungLocator));
         driver.findElement(filterSamsungLocator).click();
         logger.info("Отфильтровано по самсунгу");
         wait.until(ExpectedConditions.visibilityOfElementLocated(filterXiaomiLocator));
@@ -121,8 +121,14 @@ public class Lesson8_HW {
         wait.until(ExpectedConditions.visibilityOfElementLocated(xiaomiPopupCompareLocator)); //Ждем появления всплывашки с именем добавленного товара сяоми
         logger.info("всплывашка добавления к сравнению появилась");
         wait.until(ExpectedConditions.elementToBeClickable(compareLinkLocator));
-        driver.findElement(compareLinkLocator).click();
         logger.info("Переход к сравнению произошел");
+
+        try {
+            driver.findElement(compareLinkLocator).click();
+        } catch (org.openqa.selenium.ElementClickInterceptedException e) {
+            wait.until(ExpectedConditions.elementToBeClickable(compareLinkLocator));
+            driver.findElement(compareLinkLocator).click();
+        }
 
 // Сравнение
 
