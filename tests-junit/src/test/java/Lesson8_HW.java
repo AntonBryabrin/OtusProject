@@ -67,7 +67,6 @@ public class Lesson8_HW {
         driver.manage().window().maximize();
         driver.get(config.hostnameYandexMarket());
         logger.info("Открыта страница маркета");
-        Thread.sleep(25000);
         wait.until(ExpectedConditions.elementToBeClickable(elektronikaLinkLocator));
         driver.findElement(elektronikaLinkLocator).click();
         logger.info("Переход в электронику");
