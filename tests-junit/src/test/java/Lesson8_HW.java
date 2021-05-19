@@ -121,7 +121,7 @@ public class Lesson8_HW {
         wait.until(ExpectedConditions.visibilityOfElementLocated(xiaomiPopupCompareLocator)); //Ждем появления всплывашки с именем добавленного товара сяоми
         logger.info("всплывашка добавления к сравнению появилась");
         wait.until(ExpectedConditions.elementToBeClickable(compareLinkLocator));
-        
+
 
         try {
             driver.findElement(compareLinkLocator).click();
