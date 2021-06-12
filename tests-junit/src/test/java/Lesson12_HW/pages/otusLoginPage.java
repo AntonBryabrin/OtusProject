@@ -35,7 +35,7 @@ public class otusLoginPage extends AbstractPage {
         return this;
     }
 
-    public otusLoginPage login(String login, String password) throws InterruptedException {
+    public otusLoginPage login(String login, String password){
 
         driver.manage().timeouts().implicitlyWait(10, TimeUnit.SECONDS);
         driver.findElement(emailField).sendKeys(login);

@@ -21,7 +21,7 @@ public class Lesson12_HW_Test extends BaseHooks{
 
 
     @Test
-    public void marketCompareItemsCheck() throws InterruptedException {
+    public void otusPersonalInfoCheck(){
        // WebDriverWait wait = new WebDriverWait(driver, 25);
         config = ConfigFactory.create(TestConfig.class);
         otusLoginPage loginPage = new otusLoginPage(driver);
@@ -67,6 +67,7 @@ public class Lesson12_HW_Test extends BaseHooks{
         softly.assertThat(cabinetPageRestarted.getUserfirstcontactValue()).as("Compare contact value 1").isEqualTo(config.usercontact1valueOtus());
         softly.assertThat(cabinetPageRestarted.getUsersecondcontactType()).as("Compare contact 2").isEqualTo(config.usercontact2Otus());
         softly.assertThat(cabinetPageRestarted.getUsersecondcontactValue()).as("Compare contact value 2").isEqualTo(config.usercontact2valueOtus());
+        logger.info("Отображаемая информация соответствует введенной");
         cabinetPageRestarted.deleteContacts();
 
 

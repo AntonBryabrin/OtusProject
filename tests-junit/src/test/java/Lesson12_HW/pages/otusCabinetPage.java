@@ -50,7 +50,7 @@ public class otusCabinetPage extends AbstractPage {
     }
 
 
-    public otusCabinetPage open() throws InterruptedException {
+    public otusCabinetPage open() {
         Actions action = new Actions(driver);
         driver.manage().timeouts().implicitlyWait(10, TimeUnit.SECONDS);
         config = ConfigFactory.create(TestConfig.class);
@@ -66,7 +66,7 @@ public class otusCabinetPage extends AbstractPage {
         return this;
     }
 
-    public otusCabinetPage fillInfo() throws InterruptedException {
+    public otusCabinetPage fillInfo(){
 
         driver.manage().timeouts().implicitlyWait(10, TimeUnit.SECONDS);
         config = ConfigFactory.create(TestConfig.class);
@@ -158,7 +158,7 @@ public class otusCabinetPage extends AbstractPage {
 
 
 
-    public otusCabinetPage deleteContacts() throws InterruptedException {
+    public otusCabinetPage deleteContacts() {
 
         List<WebElement> deleteButtons = driver.findElements(deleteButton);
 
