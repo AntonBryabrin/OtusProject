@@ -14,6 +14,18 @@
     <properties>
         <maven.compiler.source>8</maven.compiler.source>
         <maven.compiler.target>8</maven.compiler.target>
+        <project.build.sourceEncoding>UTF-8</project.build.sourceEncoding>
+
+        <aspectj.version>1.9.7</aspectj.version>
+        <selenium-version>4.0.0-beta-3</selenium-version>
+        <testng-version>7.4.0</testng-version>
+        <ashot-version>1.5.4</ashot-version>
+        <allure-junit4-version>2.14.0</allure-junit4-version>
+        <log4j-version>2.14.1</log4j-version>
+        <extentreports-version>5.0.8</extentreports-version>
+        <maven-surefire-plugin-version>3.0.0-M5</maven-surefire-plugin-version>
+
+
     </properties>
     <dependencies>
         <dependency>
@@ -59,8 +71,93 @@
             <version>3.19.0</version>
             <scope>test</scope>
         </dependency>
+        <!--		Allure-->
+
+
+        <dependency>
+            <groupId>io.qameta.allure</groupId>
+            <artifactId>allure-junit4</artifactId>
+            <version>2.14.0</version>
+            <scope>test</scope>
+        </dependency>
+
+        <dependency>
+            <groupId>org.aspectj</groupId>
+            <artifactId>aspectjweaver</artifactId>
+            <version>1.9.7</version>
+        </dependency>
+
+        <dependency>
+            <groupId>org.apache.maven.plugins</groupId>
+            <artifactId>maven-surefire-plugin</artifactId>
+            <version>3.0.0-M5</version>
+        </dependency>
+
+        <dependency>
+            <groupId>org.slf4j</groupId>
+            <artifactId>slf4j-api</artifactId>
+            <version>1.6.6</version>
+        </dependency>
+        <dependency>
+            <groupId>org.slf4j</groupId>
+            <artifactId>slf4j-simple</artifactId>
+            <version>1.6.6</version>
+        </dependency>
+
+
+
+
+
 
 
     </dependencies>
+
+    <build>
+        <plugins>
+            <plugin>
+                <groupId>org.apache.maven.plugins</groupId>
+                <artifactId>maven-surefire-plugin</artifactId>
+                <version>3.0.0-M5</version>
+                <configuration>
+                    <testFailureIgnore>false</testFailureIgnore>
+                    <argLine>
+                        -javaagent:"${settings.localRepository}/org/aspectj/aspectjweaver/${aspectj.version}/aspectjweaver-${aspectj.version}.jar"
+                    </argLine>
+                    <systemPropertyVariables>
+                        <allure.results.directory>${project.build.directory}/allure-results</allure.results.directory>
+                    </systemPropertyVariables>
+                    <properties>
+                        <property>
+                            <name>listener</name>
+                            <value>io.qameta.allure.junit4.AllureJunit4</value>
+                        </property>
+                    </properties>
+                </configuration>
+                <dependencies>
+                    <dependency>
+                        <groupId>org.aspectj</groupId>
+                        <artifactId>aspectjweaver</artifactId>
+                        <version>1.9.7</version>
+                    </dependency>
+                </dependencies>
+            </plugin>
+
+
+
+
+
+            <plugin>
+                <groupId>io.qameta.allure</groupId>
+                <artifactId>allure-maven</artifactId>
+                <version>2.10.0</version>
+                <configuration>
+                    <reportVersion>2.14.0</reportVersion>
+                    <allureDownloadUrl>https://repo.maven.apache.org/maven2/io/qameta/allure/allure-commandline/2.14.0/allure-commandline-2.14.0.zip</allureDownloadUrl>
+                </configuration>
+            </plugin>
+
+
+        </plugins>
+    </build>
 
 </project>
