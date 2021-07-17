@@ -16,14 +16,20 @@
         <maven.compiler.target>8</maven.compiler.target>
         <project.build.sourceEncoding>UTF-8</project.build.sourceEncoding>
 
-        <aspectj.version>1.9.7</aspectj.version>
+
         <selenium-version>4.0.0-beta-3</selenium-version>
         <testng-version>7.4.0</testng-version>
         <ashot-version>1.5.4</ashot-version>
+
+
         <allure-junit4-version>2.14.0</allure-junit4-version>
+
+
+
         <log4j-version>2.14.1</log4j-version>
         <extentreports-version>5.0.8</extentreports-version>
         <maven-surefire-plugin-version>3.0.0-M5</maven-surefire-plugin-version>
+        <aspectj.version>1.9.7</aspectj.version>
 
 
     </properties>
@@ -34,6 +40,9 @@
             <version>4.13.2</version>
             <scope>test</scope>
         </dependency>
+
+
+
         <dependency>
             <groupId>ru.otus</groupId>
             <artifactId>model</artifactId>
@@ -105,7 +114,19 @@
         </dependency>
 
 
+        <dependency>
+            <groupId>org.junit.vintage</groupId>
+            <artifactId>junit-vintage-engine</artifactId>
+            <version>5.1.0</version>
+            <scope>test</scope>
+        </dependency>
 
+        <dependency>
+            <groupId>org.junit.jupiter</groupId>
+            <artifactId>junit-jupiter-engine</artifactId>
+            <version>5.1.0</version>
+            <scope>test</scope>
+        </dependency>
 
 
 
@@ -141,8 +162,6 @@
                     </dependency>
                 </dependencies>
             </plugin>
-
-
 
 
 
