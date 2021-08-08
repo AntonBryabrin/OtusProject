@@ -1,4 +1,4 @@
-package Lesson12_HW.pages;
+package OtusFinal_HW.pages;
 
 import configuration.TestConfig;
 import org.aeonbits.owner.ConfigFactory;

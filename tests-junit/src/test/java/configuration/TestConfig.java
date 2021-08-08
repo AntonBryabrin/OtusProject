@@ -5,8 +5,12 @@ import org.aeonbits.owner.Config;
 @Config.Sources({"classpath:general.properties"})
 public interface TestConfig extends Config {
     @Key("hostnameOtus")
-    @DefaultValue("")
+    @DefaultValue("https://events.epam.com")
     String hostnameOtus();
+
+    @Key("eventsPage")
+    @DefaultValue("https://events.epam.com")
+    String eventsPage();
 
     @Key("hostnameGit")
     @DefaultValue("https://git.com")

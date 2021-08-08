@@ -1,4 +1,4 @@
-package Lesson12_HW.utils;
+package OtusFinal_HW.utils;
 
 import configuration.TestConfig;
 import org.aeonbits.owner.ConfigFactory;
@@ -8,6 +8,7 @@ import org.junit.AfterClass;
 import org.junit.BeforeClass;
 
 import org.openqa.selenium.WebDriver;
+import org.openqa.selenium.support.ui.WebDriverWait;
 
 import java.util.concurrent.TimeUnit;
 
@@ -26,6 +27,7 @@ public class BaseHooks {
             driver.manage().timeouts().implicitlyWait(10, TimeUnit.SECONDS);
             driver.manage().window().maximize();
         }
+
     }
 
     @AfterClass

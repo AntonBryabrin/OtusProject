@@ -25,4 +25,8 @@ public interface TestConfig extends Config {
     @DefaultValue("")
     String hostnameYandexMarket();
 
+    @Config.Key("eventsPage")
+    @DefaultValue("https://events.epam.com")
+    String eventsPage();
+
 }

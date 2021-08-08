@@ -1,0 +1,147 @@
+package OtusFinal_HW.pages;
+
+import OtusFinal_HW.utils.BaseHooks;
+import configuration.TestConfig;
+import org.aeonbits.owner.ConfigFactory;
+import org.apache.logging.log4j.LogManager;
+import org.apache.logging.log4j.Logger;
+import org.openqa.selenium.By;
+import org.openqa.selenium.WebDriver;
+import org.openqa.selenium.WebElement;
+import org.openqa.selenium.support.ui.ExpectedConditions;
+import org.openqa.selenium.support.ui.WebDriverWait;
+
+import java.util.concurrent.TimeUnit;
+
+
+public class EventsPage extends AbstractPage {
+    TestConfig config;
+    Logger logger = LogManager.getLogger(EventsPage.class);
+
+
+    private By search = By.xpath("//input[@name='q']");
+    private By loginButton = By.xpath("//button[@class='header2__auth js-open-modal']");
+    private By emailField = By.xpath("//form[contains(@action, 'login')]/*/input");
+    private By passwordField = By.xpath("//form[contains(@action, 'login')]/*//input[@name='password']");
+
+
+    private By eventsLinkLocator = By.xpath("//a[@class='nav-link' and @href='/events']");
+    private By pastEventsLinkLocator = By.xpath("//a[contains(@class, 'evnt-tab-link nav-link') and .//span[contains(text(), 'Past Events')]]");
+    private By eventCardLocator = By.xpath("//a/div[@class='evnt-card-wrapper']");
+    private By upcomingCounterLocator = By.xpath("(//span[@class='evnt-tab-counter evnt-label small white'])[1]"); //Переделать на элемент без счета
+    private By languageLocator = By.xpath("//p[@class='language']/span");
+    private By eventNameLocator = By.xpath("//div[@class='evnt-event-name']/*/span");
+    private By preloaderLocator = By.xpath("//div[@class='evnt-global-loader']");
+    private By eventDateLocator = By.xpath("//div[@class='evnt-dates-cell dates']/*/span[@class='date']");
+    private By eventStatusLocator = By.xpath("//div[@class='evnt-dates-cell dates']/*/span[contains(@class, 'status')]");
+    private By eventSpeakersCellLocator = By.xpath("//div[@class='evnt-people-table']");
+    private By eventSingleSpeakerLocator = By.xpath("//div[@class='evnt-speaker']");
+
+
+    public EventsPage(WebDriver driver) {
+        super(driver);
+    }
+
+    public Boolean getEventLanguageDisplayed() {
+
+        WebElement EventCardWebElement = driver.findElement(eventCardLocator);
+        logger.info("язык в карточке: " + EventCardWebElement.findElement(languageLocator).isDisplayed());
+        return EventCardWebElement.findElement(languageLocator).isDisplayed();
+    }
+
+    public Boolean getEventNameDisplayed() {
+
+        WebElement EventCardWebElement = driver.findElement(eventCardLocator);
+        logger.info("Название в карточке: " + EventCardWebElement.findElement(eventNameLocator).isDisplayed());
+        return EventCardWebElement.findElement(eventNameLocator).isDisplayed();
+    }
+
+    public Boolean getEventDateDisplayed() {
+
+        WebElement EventCardWebElement = driver.findElement(eventCardLocator);
+        logger.info("Дата в карточке: " + EventCardWebElement.findElement(eventDateLocator).isDisplayed());
+        return EventCardWebElement.findElement(eventDateLocator).isDisplayed();
+    }
+
+    public Boolean getEventStatusDisplayed() {
+
+        WebElement EventCardWebElement = driver.findElement(eventCardLocator);
+        logger.info("Статус в карточке: " + EventCardWebElement.findElement(eventStatusLocator).isDisplayed());
+        return EventCardWebElement.findElement(eventStatusLocator).isDisplayed();
+    }
+
+    public Boolean getEventSpeakersCellDisplayed() { //Проверка что отображается блок спикеров
+
+        WebElement EventCardWebElement = driver.findElement(eventCardLocator);
+        logger.info("Блок спикеров в карточке: " + EventCardWebElement.findElement(eventSpeakersCellLocator).isDisplayed());
+        return EventCardWebElement.findElement(eventSpeakersCellLocator).isDisplayed();
+    }
+
+    public Boolean getEventSingleSpeakerDisplayed() { //Проверка что отображается хотя бы один спикер в карточке
+
+        WebElement EventCardWebElement = driver.findElement(eventCardLocator);
+        logger.info("Спикер в карточке: " + EventCardWebElement.findElement(eventSingleSpeakerLocator).isDisplayed());
+        return EventCardWebElement.findElement(eventSingleSpeakerLocator).isDisplayed();
+    }
+
+
+
+    public EventsPage open() {
+
+        config = ConfigFactory.create(TestConfig.class);
+        driver.get(config.eventsPage());
+        logger.info("Открыта главная страница");
+        driver.findElement(eventsLinkLocator).click();
+        logger.info("Открыта страница мероприятий");
+
+        return this;
+    }
+
+    public EventsPage openPastEvents() {
+        WebDriverWait wait = new WebDriverWait(driver, 5);
+        driver.findElement(pastEventsLinkLocator).click();
+        logger.info("Переход на прошедшие мероприятия");
+        wait.until(ExpectedConditions.invisibilityOfElementLocated(preloaderLocator));
+        return this;
+    }
+
+
+
+    public int countCards() {
+
+        int upcomingCardsNumber = driver.findElements(eventCardLocator).size();
+        logger.info("Получено количество карточек мероприятий");
+
+        return upcomingCardsNumber;
+    }
+
+    public int getUpcomingValue() {
+
+        String upcomingValueString = driver.findElement(upcomingCounterLocator).getText();
+        int upcomingValueInt = Integer.parseInt(upcomingValueString);
+        logger.info("Получено количество мероприятий");
+
+
+        return upcomingValueInt;
+    }
+
+
+
+
+
+
+
+    public EventsPage login(String login, String password){
+
+
+        driver.findElement(emailField).sendKeys(login);
+        logger.info("введен логин");
+        driver.findElement(passwordField).sendKeys(password);
+        logger.info("введен пароль");
+        driver.findElement(By.xpath("//button[@class='new-button new-button_full new-button_blue new-button_md']")).click();
+
+
+        return new EventsPage(driver);
+    }
+
+}

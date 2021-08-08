@@ -1,4 +1,4 @@
-package Lesson12_HW.utils;
+package OtusFinal_HW.utils;
 
 public enum WebDriverType {
     CHROME,
