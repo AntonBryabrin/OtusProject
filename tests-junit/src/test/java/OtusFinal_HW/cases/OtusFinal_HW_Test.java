@@ -11,6 +11,10 @@ import org.junit.Test;
 import configuration.TestConfig;
 import OtusFinal_HW.pages.*;
 import OtusFinal_HW.utils.BaseHooks;
+import org.openqa.selenium.WebElement;
+
+import java.time.LocalDate;
+import java.util.List;
 
 public class OtusFinal_HW_Test extends BaseHooks{
     private Logger logger = LogManager.getLogger(OtusFinal_HW_Test.class);
@@ -27,7 +31,6 @@ public class OtusFinal_HW_Test extends BaseHooks{
         config = ConfigFactory.create(TestConfig.class);
         EventsPage eventsPage = new EventsPage(driver);
 
-
         eventsPage.open();
         int actualNumber = eventsPage.countCards();
         int expectedNumber = eventsPage.getUpcomingValue();
@@ -38,7 +41,7 @@ public class OtusFinal_HW_Test extends BaseHooks{
         @Test
         public void pastEventsTest() {
 
-            config = ConfigFactory.create(TestConfig.class);
+            //config = ConfigFactory.create(TestConfig.class);
             EventsPage eventsPage = new EventsPage(driver);
 
             eventsPage.open();
@@ -51,6 +54,28 @@ public class OtusFinal_HW_Test extends BaseHooks{
             softly.assertThat(eventsPage.getEventSpeakersCellDisplayed()).as("Check speakers cell").isEqualTo(true);
             softly.assertThat(eventsPage.getEventSingleSpeakerDisplayed()).as("Check single speaker").isEqualTo(true);
         }
+
+    @Test
+    public void upcomingEventsTest(){
+
+        EventsPage eventsPage = new EventsPage(driver);
+
+        eventsPage.open();
+        eventsPage.openUpcomingEvents();
+
+
+        List<WebElement> cardsList = eventsPage.getEventsCards();
+
+        for(WebElement card : cardsList) {
+
+            Assert.assertTrue(eventsPage.getEventDateEnd(card) >= LocalDate.now().toEpochDay());
+
+        }
+
+    }
+
+
+
 
     }
 

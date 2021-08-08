@@ -11,6 +11,10 @@ import org.openqa.selenium.WebElement;
 import org.openqa.selenium.support.ui.ExpectedConditions;
 import org.openqa.selenium.support.ui.WebDriverWait;
 
+import java.time.LocalDate;
+import java.time.format.DateTimeFormatter;
+import java.util.List;
+import java.util.Locale;
 import java.util.concurrent.TimeUnit;
 
 
@@ -32,10 +36,12 @@ public class EventsPage extends AbstractPage {
     private By languageLocator = By.xpath("//p[@class='language']/span");
     private By eventNameLocator = By.xpath("//div[@class='evnt-event-name']/*/span");
     private By preloaderLocator = By.xpath("//div[@class='evnt-global-loader']");
-    private By eventDateLocator = By.xpath("//div[@class='evnt-dates-cell dates']/*/span[@class='date']");
+    //private By eventDateLocator = By.xpath(".//span");
+   private By eventDateLocator = By.xpath(".//div[@class='evnt-dates-cell dates']/*/span[@class='date']");
     private By eventStatusLocator = By.xpath("//div[@class='evnt-dates-cell dates']/*/span[contains(@class, 'status')]");
     private By eventSpeakersCellLocator = By.xpath("//div[@class='evnt-people-table']");
     private By eventSingleSpeakerLocator = By.xpath("//div[@class='evnt-speaker']");
+    private By upcomingEventsLinkLocator = By.xpath("//a[contains(@class, 'evnt-tab-link nav-link') and .//span[contains(text(), 'Upcoming events')]]");
 
 
     public EventsPage(WebDriver driver) {
@@ -84,6 +90,40 @@ public class EventsPage extends AbstractPage {
         return EventCardWebElement.findElement(eventSingleSpeakerLocator).isDisplayed();
     }
 
+    public Long getEventDateEnd(WebElement card) { //
+
+        String dateText = card.findElement(eventDateLocator).getText();
+        logger.info("Даты мероприятия: " + dateText);
+
+        if (!dateText.matches("\\d{2} ([\\S]+) \\d{4}$")){
+            String[] array = dateText.split(" - ");
+            dateText = array[1];
+
+        }
+
+        else{
+            DateTimeFormatter dateFormatter = DateTimeFormatter.ofPattern("d MMM u", Locale.ENGLISH); //!!!!Переделать на методы
+            LocalDate date = LocalDate.parse(dateText, dateFormatter);
+            Long dateEpoch = date.toEpochDay();
+
+
+
+        }
+
+        DateTimeFormatter dateFormatter = DateTimeFormatter.ofPattern("d MMM u", Locale.ENGLISH); //!!!!Переделать на методы
+        LocalDate date = LocalDate.parse(dateText, dateFormatter);
+        Long dateEpoch = date.toEpochDay();
+
+        return dateEpoch;
+    }
+
+
+    public List<WebElement> getEventsCards() {
+        List<WebElement> cards = driver.findElements(eventCardLocator);
+        return cards;
+    }
+
+
 
 
     public EventsPage open() {
@@ -101,6 +141,14 @@ public class EventsPage extends AbstractPage {
         WebDriverWait wait = new WebDriverWait(driver, 5);
         driver.findElement(pastEventsLinkLocator).click();
         logger.info("Переход на прошедшие мероприятия");
+        wait.until(ExpectedConditions.invisibilityOfElementLocated(preloaderLocator));
+        return this;
+    }
+
+    public EventsPage openUpcomingEvents() {
+        WebDriverWait wait = new WebDriverWait(driver, 5);
+        driver.findElement(upcomingEventsLinkLocator).click();
+        logger.info("Переход на предстоящие мероприятия");
         wait.until(ExpectedConditions.invisibilityOfElementLocated(preloaderLocator));
         return this;
     }
