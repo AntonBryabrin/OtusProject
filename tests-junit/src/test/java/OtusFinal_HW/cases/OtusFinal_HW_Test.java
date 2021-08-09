@@ -93,6 +93,7 @@ public class OtusFinal_HW_Test extends BaseHooks{
         EventsPage eventsPage = new EventsPage(driver);
 
         eventsPage.open();
+        
         eventsPage.openPastEvents();
         eventsPage.openCountrySelector();
 
