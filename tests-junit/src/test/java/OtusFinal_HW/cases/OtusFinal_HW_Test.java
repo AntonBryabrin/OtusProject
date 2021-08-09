@@ -25,6 +25,9 @@ public class OtusFinal_HW_Test extends BaseHooks{
     public final JUnitSoftAssertions softly = new JUnitSoftAssertions();
 
 
+
+
+
     @Test
     public void numberOfupcomingEventsTest() {
         // WebDriverWait wait = new WebDriverWait(driver, 25);
@@ -55,6 +58,11 @@ public class OtusFinal_HW_Test extends BaseHooks{
             softly.assertThat(eventsPage.getEventSingleSpeakerDisplayed()).as("Check single speaker").isEqualTo(true);
         }
 
+
+
+
+
+
     @Test
     public void upcomingEventsTest(){
 
@@ -72,7 +80,39 @@ public class OtusFinal_HW_Test extends BaseHooks{
 
         }
 
+
+
+
+
+
     }
+
+    @Test
+    public void upcomingEventsCanadaTest() {
+        
+        EventsPage eventsPage = new EventsPage(driver);
+
+        eventsPage.open();
+        eventsPage.openPastEvents();
+        eventsPage.openCountrySelector();
+
+        int actualNumber = eventsPage.countCards();
+        int expectedNumber = eventsPage.getPastValue();
+
+        Assert.assertEquals(expectedNumber, actualNumber);
+
+        List<WebElement> cardsList = eventsPage.getEventsCards();
+
+        for(WebElement card : cardsList) {
+
+            Assert.assertTrue(eventsPage.getEventDateEnd(card) < LocalDate.now().toEpochDay());
+
+        }
+
+
+    }
+
+
 
 
 

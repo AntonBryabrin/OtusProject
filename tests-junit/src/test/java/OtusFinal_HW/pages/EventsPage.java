@@ -6,6 +6,7 @@ import org.aeonbits.owner.ConfigFactory;
 import org.apache.logging.log4j.LogManager;
 import org.apache.logging.log4j.Logger;
 import org.openqa.selenium.By;
+import org.openqa.selenium.Keys;
 import org.openqa.selenium.WebDriver;
 import org.openqa.selenium.WebElement;
 import org.openqa.selenium.support.ui.ExpectedConditions;
@@ -33,6 +34,8 @@ public class EventsPage extends AbstractPage {
     private By pastEventsLinkLocator = By.xpath("//a[contains(@class, 'evnt-tab-link nav-link') and .//span[contains(text(), 'Past Events')]]");
     private By eventCardLocator = By.xpath("//a/div[@class='evnt-card-wrapper']");
     private By upcomingCounterLocator = By.xpath("(//span[@class='evnt-tab-counter evnt-label small white'])[1]"); //Переделать на элемент без счета
+    private By pastCounterLocator = By.xpath("(//span[@class='evnt-tab-counter evnt-label small white'])[2]"); //Переделать на элемент без счета
+
     private By languageLocator = By.xpath("//p[@class='language']/span");
     private By eventNameLocator = By.xpath("//div[@class='evnt-event-name']/*/span");
     private By preloaderLocator = By.xpath("//div[@class='evnt-global-loader']");
@@ -42,6 +45,9 @@ public class EventsPage extends AbstractPage {
     private By eventSpeakersCellLocator = By.xpath("//div[@class='evnt-people-table']");
     private By eventSingleSpeakerLocator = By.xpath("//div[@class='evnt-speaker']");
     private By upcomingEventsLinkLocator = By.xpath("//a[contains(@class, 'evnt-tab-link nav-link') and .//span[contains(text(), 'Upcoming events')]]");
+    private By locationDropdownLocalor = By.xpath("//div[@id='filter_location']");
+    private By dropdownCanadaLocalor = By.xpath("//label[@data-value='Canada']");
+
 
 
     public EventsPage(WebDriver driver) {
@@ -106,8 +112,6 @@ public class EventsPage extends AbstractPage {
             LocalDate date = LocalDate.parse(dateText, dateFormatter);
             Long dateEpoch = date.toEpochDay();
 
-
-
         }
 
         DateTimeFormatter dateFormatter = DateTimeFormatter.ofPattern("d MMM u", Locale.ENGLISH); //!!!!Переделать на методы
@@ -158,7 +162,7 @@ public class EventsPage extends AbstractPage {
     public int countCards() {
 
         int upcomingCardsNumber = driver.findElements(eventCardLocator).size();
-        logger.info("Получено количество карточек мероприятий");
+        logger.info("Получено количество карточек мероприятий " + upcomingCardsNumber);
 
         return upcomingCardsNumber;
     }
@@ -167,10 +171,37 @@ public class EventsPage extends AbstractPage {
 
         String upcomingValueString = driver.findElement(upcomingCounterLocator).getText();
         int upcomingValueInt = Integer.parseInt(upcomingValueString);
-        logger.info("Получено количество мероприятий");
+        logger.info("Получено количество будущих мероприятий " + upcomingValueInt);
 
 
         return upcomingValueInt;
+    }
+
+    public int getPastValue() {
+
+        String pastValueString = driver.findElement(pastCounterLocator).getText();
+        int pastValueInt = Integer.parseInt(pastValueString);
+        logger.info("Получено количество прошедших мероприятий " + pastValueInt);
+
+
+        return pastValueInt;
+    }
+
+
+
+
+    public EventsPage openCountrySelector() {
+        WebDriverWait wait = new WebDriverWait(driver, 5);
+        driver.findElement(locationDropdownLocalor).click();
+        logger.info("Открыт Гео дропдаун");
+        driver.findElement(dropdownCanadaLocalor).click();
+        wait.until(ExpectedConditions.invisibilityOfElementLocated(preloaderLocator));
+        driver.findElement(By.xpath("//div[@class='evnt-events-wrapper']")).click();
+
+
+
+
+        return this;
     }
 
 
