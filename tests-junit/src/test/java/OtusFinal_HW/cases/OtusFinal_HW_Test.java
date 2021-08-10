@@ -93,9 +93,9 @@ public class OtusFinal_HW_Test extends BaseHooks{
         EventsPage eventsPage = new EventsPage(driver);
 
         eventsPage.open();
-        
+
         eventsPage.openPastEvents();
-        eventsPage.openCountrySelector();
+        eventsPage.filerByCanada();
 
         int actualNumber = eventsPage.countCards();
         int expectedNumber = eventsPage.getPastValue();
@@ -113,12 +113,67 @@ public class OtusFinal_HW_Test extends BaseHooks{
 
     }
 
+    /*@Test
+    public void categoryTest() {
+
+        EventsPage eventsPage = new EventsPage(driver);
+
+        eventsPage.open();
+        eventsPage.filerByTesting(); //Переписать на передачу значения в параметре
+        eventsPage.filerByBelarus(); //Переписать на передачу значения в параметре
+        eventsPage.filerByEnglish(); //Переписать на передачу значения в параметре
+
+        try {
+            Thread.sleep(10000);
+        } catch (InterruptedException e) {
+            e.printStackTrace();
+        }
+
+
+    }*/
+
+    @Test
+    public void categoryTest() {
+
+        VideoPage videoPage = new VideoPage(driver);
+
+        videoPage.openVideoPage();
+        videoPage.filerByTesting();
+        videoPage.filerByBelarus();
+        videoPage.filerByEnglish();
+        videoPage.openCard();
+
+        try {
+            Thread.sleep(5000);
+        } catch (InterruptedException e) {
+            e.printStackTrace();
+        }
+
+        softly.assertThat(videoPage.getEventLanguageOnPage()).as("Check language").isEqualTo("ENGLISH");
+        softly.assertThat(videoPage.getEventCountryOnPage()).as("Check language").isEqualTo("Belarus");
+
+
 
 
 
 
 
     }
+
+
+
+    }
+
+
+
+
+
+
+
+
+
+
+
 
 
 

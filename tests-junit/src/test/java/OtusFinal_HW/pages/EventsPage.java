@@ -14,6 +14,7 @@ import org.openqa.selenium.support.ui.WebDriverWait;
 
 import java.time.LocalDate;
 import java.time.format.DateTimeFormatter;
+import java.util.Arrays;
 import java.util.List;
 import java.util.Locale;
 import java.util.concurrent.TimeUnit;
@@ -46,7 +47,16 @@ public class EventsPage extends AbstractPage {
     private By eventSingleSpeakerLocator = By.xpath("//div[@class='evnt-speaker']");
     private By upcomingEventsLinkLocator = By.xpath("//a[contains(@class, 'evnt-tab-link nav-link') and .//span[contains(text(), 'Upcoming events')]]");
     private By locationDropdownLocalor = By.xpath("//div[@id='filter_location']");
+    private By categoryDropdownLocalor = By.xpath("//div[@id='filter_category']");
+    private By filtersLocator = By.xpath("//div[@class='evnt-toggle-filters-button evnt-button btn']");
+    private By filterLanguageLocator = By.xpath("//div[@id='filter_language']");
     private By dropdownCanadaLocalor = By.xpath("//label[@data-value='Canada']");
+    private By dropdownBelarusLocalor = By.xpath("//label[@data-value='Belarus']");
+    private By dropdownEnglishLocalor = By.xpath("//label[@data-value='ENGLISH']");
+
+
+    private By dropdownTestingLocalor = By.xpath("//label[@data-value='Testing']");
+
 
 
 
@@ -190,19 +200,53 @@ public class EventsPage extends AbstractPage {
 
 
 
-    public EventsPage openCountrySelector() {
+    public EventsPage filerByCanada() {
         WebDriverWait wait = new WebDriverWait(driver, 5);
         driver.findElement(locationDropdownLocalor).click();
         logger.info("Открыт Гео дропдаун");
         driver.findElement(dropdownCanadaLocalor).click();
         wait.until(ExpectedConditions.invisibilityOfElementLocated(preloaderLocator));
         driver.findElement(By.xpath("//div[@class='evnt-events-wrapper']")).click();
+        return this;
+    }
 
-
+    public EventsPage filerByTesting() {
+        WebDriverWait wait = new WebDriverWait(driver, 5);
+        driver.findElement(categoryDropdownLocalor).click();
+        logger.info("Открыт Категория дропдаун");
+        driver.findElement(dropdownTestingLocalor).click();
+        logger.info("Выбрана категория Тестирование");
+        //wait.until(ExpectedConditions.invisibilityOfElementLocated(preloaderLocator));
 
 
         return this;
     }
+
+
+    public EventsPage filerByBelarus() {
+        driver.findElement(locationDropdownLocalor).click();
+        logger.info("Открыт Гео дропдаун");
+        driver.findElement(dropdownBelarusLocalor).click();
+        logger.info("Выбрана беларусь");
+
+        return this;
+    }
+
+    public EventsPage filerByEnglish() {
+
+        driver.findElement(filtersLocator).click();
+        logger.info("Открыты Дополнительные фильтры");
+        driver.findElement(filterLanguageLocator).click();
+        logger.info("Открыт дропдаун Языков");
+        driver.findElement(dropdownEnglishLocalor).click();
+        logger.info("Выбран английский язык");
+        driver.findElement(By.xpath("//input[@placeholder='Search by Event Name']")).click();
+
+        return this;
+    }
+
+
+
 
 
 

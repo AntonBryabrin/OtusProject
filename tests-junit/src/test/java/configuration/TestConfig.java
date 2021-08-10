@@ -12,6 +12,12 @@ public interface TestConfig extends Config {
     @DefaultValue("https://events.epam.com")
     String eventsPage();
 
+    @Key("eventsVideoPage")
+    @DefaultValue("https://events.epam.com")
+    String eventsVideoPage();
+
+
+
     @Key("hostnameGit")
     @DefaultValue("https://git.com")
     String hostnameGit();
