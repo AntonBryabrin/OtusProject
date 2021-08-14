@@ -143,22 +143,53 @@ public class OtusFinal_HW_Test extends BaseHooks{
         videoPage.filerByEnglish();
         videoPage.openCard();
 
-        try {
-            Thread.sleep(5000);
-        } catch (InterruptedException e) {
-            e.printStackTrace();
-        }
-
+        
         softly.assertThat(videoPage.getEventLanguageOnPage()).as("Check language").isEqualTo("ENGLISH");
-        softly.assertThat(videoPage.getEventCountryOnPage()).as("Check language").isEqualTo("Belarus");
+        softly.assertThat(videoPage.getEventCountryOnPage()).as("Check location").isEqualTo("Belarus");
+        softly.assertThat(videoPage.getEventCategoryOnPageDisplayed()).as("Check category").isEqualTo(true);
 
 
+    }
 
+    @Test
+    public void allPageTest() {
 
+        VideoPage videoPage = new VideoPage(driver);
+
+        videoPage.openVideoPage();
+       // videoPage.filerByTesting();
+       // videoPage.filerByBelarus();
+       // videoPage.filerByEnglish();
+       // videoPage.openCard();
+
+        videoPage.getCardsLinks();
+    }
+
+    @Test
+    public void searchTest(){
+
+        VideoPage videoPage = new VideoPage(driver);
+
+        videoPage.openVideoPage();
+        videoPage.searchText();
+
+        videoPage.getCardsNames();
 
 
 
     }
+
+
+
+
+
+
+
+
+
+
+
+
 
 
 

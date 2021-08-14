@@ -5,11 +5,13 @@ import org.aeonbits.owner.ConfigFactory;
 import org.apache.logging.log4j.LogManager;
 import org.apache.logging.log4j.Logger;
 import org.openqa.selenium.By;
+import org.openqa.selenium.Keys;
 import org.openqa.selenium.WebDriver;
 import org.openqa.selenium.WebElement;
 import org.openqa.selenium.support.ui.ExpectedConditions;
 import org.openqa.selenium.support.ui.WebDriverWait;
 
+import java.util.ArrayList;
 import java.util.List;
 
 
@@ -32,6 +34,7 @@ public class VideoPage extends AbstractPage {
 
     private By languageLocator = By.xpath("//p[@class='language']/span");
     private By eventNameLocator = By.xpath("//div[@class='evnt-event-name']/*/span");
+    private By eventNameLocator2 = By.xpath(".//h1/span");
     private By preloaderLocator = By.xpath("//div[@class='evnt-global-loader']");
     //private By eventDateLocator = By.xpath(".//span");
    private By eventDateLocator = By.xpath(".//div[@class='evnt-dates-cell dates']/*/span[@class='date']");
@@ -50,7 +53,11 @@ public class VideoPage extends AbstractPage {
     private By eventLanguagePageLocator = By.xpath("//div[@class='evnt-talk-details language evnt-now-past-talk']");
     private By eventCountryPageLocator = By.xpath("//div[@class='evnt-talk-details location evnt-now-past-talk']/span");
 
+    private By eventCategoryPageLocator = By.xpath("//div[@class='evnt-topics-wrapper']/div/label[contains(text(),'Testing')]");
+
     private By dropdownTestingLocalor = By.xpath("//label[@data-value='Testing']");
+
+    private By searchFieldLocator = By.xpath("//input[@placeholder='Search by Talk Name']");
 
 
 
@@ -142,13 +149,97 @@ public class VideoPage extends AbstractPage {
         String location = driver.findElement(eventCountryPageLocator).getText();
         String[] array = location.split(", ");
 
-        System.out.println(array[3]);
-
-
-
-
         return array[3];
     }
+
+    public Boolean getEventCategoryOnPageDisplayed() {
+               return driver.findElement(eventCategoryPageLocator).isDisplayed();
+    }
+
+
+    public VideoPage allpage(){
+
+        VideoPage videoPage = new VideoPage(driver);
+        videoPage.openVideoPage();
+        videoPage.filerByTesting();
+        videoPage.filerByBelarus();
+        videoPage.filerByEnglish();;
+
+
+
+
+        return this;
+    }
+
+    public VideoPage getCardsLinks() {
+
+
+        List<WebElement> cards = driver.findElements(By.xpath("//div[@class='evnt-talk-card']/a"));
+
+        ArrayList<String> people = new ArrayList<String>();
+
+        for (WebElement card : cards) {
+            card.getText();
+
+            String link = card.getAttribute("href");
+            System.out.println(link);
+            people.add(link);
+        }
+
+        for (int i = 0; i < people.size(); i++) {
+            System.out.println(people.get(i));
+            driver.get(people.get(i));
+
+            try {
+                Thread.sleep(2000);
+            } catch (InterruptedException e) {
+                e.printStackTrace();
+            }
+        }
+
+        return this;
+
+    }
+
+        public ArrayList<String> getCardsNames(){
+
+
+           //List<WebElement> cards2 = driver.findElements(By.xpath("//div[@class='evnt-talk-card']"));
+            List<WebElement> cards2 = getEventsCards();
+
+            //System.out.println(cards2);
+
+            ArrayList<String> people2 = new ArrayList<String>();
+
+            for(WebElement card : cards2) {
+
+
+                card.findElement(eventNameLocator2).getText();
+                System.out.println(card.findElement(eventNameLocator2).getText());
+
+
+                people2.add(card.findElement(eventNameLocator2).getText());
+            }
+
+
+      return people2;
+    }
+
+    public VideoPage searchText(){
+        WebDriverWait wait = new WebDriverWait(driver, 1);
+        driver.findElement(searchFieldLocator).click();
+        driver.findElement(searchFieldLocator).sendKeys("QA");
+        driver.findElement(searchFieldLocator).sendKeys(Keys.ENTER);
+        wait.until(ExpectedConditions.invisibilityOfElementLocated(preloaderLocator));
+
+        return this;
+    }
+
+    /*public Boolean getNameContainsValue(cardName) {
+        return driver.findElement(eventCategoryPageLocator).isDisplayed();
+    }*/
+
+
 
 
 
