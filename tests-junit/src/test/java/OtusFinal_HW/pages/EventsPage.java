@@ -41,7 +41,7 @@ public class EventsPage extends AbstractPage {
     private By eventNameLocator = By.xpath("//div[@class='evnt-event-name']/*/span");
     private By preloaderLocator = By.xpath("//div[@class='evnt-global-loader']");
     //private By eventDateLocator = By.xpath(".//span");
-   private By eventDateLocator = By.xpath(".//div[@class='evnt-dates-cell dates']/*/span[@class='date']");
+    private By eventDateLocator = By.xpath(".//div[@class='evnt-dates-cell dates']/*/span[@class='date']");
     private By eventStatusLocator = By.xpath("//div[@class='evnt-dates-cell dates']/*/span[contains(@class, 'status')]");
     private By eventSpeakersCellLocator = By.xpath("//div[@class='evnt-people-table']");
     private By eventSingleSpeakerLocator = By.xpath("//div[@class='evnt-speaker']");
@@ -56,9 +56,6 @@ public class EventsPage extends AbstractPage {
 
 
     private By dropdownTestingLocalor = By.xpath("//label[@data-value='Testing']");
-
-
-
 
     public EventsPage(WebDriver driver) {
         super(driver);
@@ -111,13 +108,11 @@ public class EventsPage extends AbstractPage {
         String dateText = card.findElement(eventDateLocator).getText();
         logger.info("Даты мероприятия: " + dateText);
 
-        if (!dateText.matches("\\d{2} ([\\S]+) \\d{4}$")){
+        if (!dateText.matches("\\d{2} ([\\S]+) \\d{4}$")) {
             String[] array = dateText.split(" - ");
             dateText = array[1];
 
-        }
-
-        else{
+        } else {
             DateTimeFormatter dateFormatter = DateTimeFormatter.ofPattern("d MMM u", Locale.ENGLISH); //!!!!Переделать на методы
             LocalDate date = LocalDate.parse(dateText, dateFormatter);
             Long dateEpoch = date.toEpochDay();
@@ -136,9 +131,6 @@ public class EventsPage extends AbstractPage {
         List<WebElement> cards = driver.findElements(eventCardLocator);
         return cards;
     }
-
-
-
 
     public EventsPage open() {
 
@@ -167,8 +159,6 @@ public class EventsPage extends AbstractPage {
         return this;
     }
 
-
-
     public int countCards() {
 
         int upcomingCardsNumber = driver.findElements(eventCardLocator).size();
@@ -183,7 +173,6 @@ public class EventsPage extends AbstractPage {
         int upcomingValueInt = Integer.parseInt(upcomingValueString);
         logger.info("Получено количество будущих мероприятий " + upcomingValueInt);
 
-
         return upcomingValueInt;
     }
 
@@ -193,12 +182,8 @@ public class EventsPage extends AbstractPage {
         int pastValueInt = Integer.parseInt(pastValueString);
         logger.info("Получено количество прошедших мероприятий " + pastValueInt);
 
-
         return pastValueInt;
     }
-
-
-
 
     public EventsPage filerByCanada() {
         WebDriverWait wait = new WebDriverWait(driver, 5);
@@ -217,7 +202,6 @@ public class EventsPage extends AbstractPage {
         driver.findElement(dropdownTestingLocalor).click();
         logger.info("Выбрана категория Тестирование");
         //wait.until(ExpectedConditions.invisibilityOfElementLocated(preloaderLocator));
-
 
         return this;
     }
@@ -245,24 +229,13 @@ public class EventsPage extends AbstractPage {
         return this;
     }
 
-
-
-
-
-
-
-
-
-
-    public EventsPage login(String login, String password){
-
+    public EventsPage login(String login, String password) {
 
         driver.findElement(emailField).sendKeys(login);
         logger.info("введен логин");
         driver.findElement(passwordField).sendKeys(password);
         logger.info("введен пароль");
         driver.findElement(By.xpath("//button[@class='new-button new-button_full new-button_blue new-button_md']")).click();
-
 
         return new EventsPage(driver);
     }

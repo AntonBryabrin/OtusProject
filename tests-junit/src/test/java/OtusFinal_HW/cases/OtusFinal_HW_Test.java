@@ -16,16 +16,15 @@ import org.openqa.selenium.WebElement;
 import java.time.LocalDate;
 import java.util.List;
 
-public class OtusFinal_HW_Test extends BaseHooks{
+import static org.junit.Assert.assertTrue;
+
+public class OtusFinal_HW_Test extends BaseHooks {
     private Logger logger = LogManager.getLogger(OtusFinal_HW_Test.class);
 
     TestConfig config;
 
     @Rule
     public final JUnitSoftAssertions softly = new JUnitSoftAssertions();
-
-
-
 
 
     @Test
@@ -41,30 +40,26 @@ public class OtusFinal_HW_Test extends BaseHooks{
         Assert.assertEquals(expectedNumber, actualNumber);
     }
 
-        @Test
-        public void pastEventsTest() {
+    @Test
+    public void pastEventsTest() {
 
-            //config = ConfigFactory.create(TestConfig.class);
-            EventsPage eventsPage = new EventsPage(driver);
+        //config = ConfigFactory.create(TestConfig.class);
+        EventsPage eventsPage = new EventsPage(driver);
 
-            eventsPage.open();
-            eventsPage.openPastEvents();
+        eventsPage.open();
+        eventsPage.openPastEvents();
 
-            softly.assertThat(eventsPage.getEventLanguageDisplayed()).as("Check language").isEqualTo(true);
-            softly.assertThat(eventsPage.getEventNameDisplayed()).as("Check event name").isEqualTo(true);
-            softly.assertThat(eventsPage.getEventDateDisplayed()).as("Check event date").isEqualTo(true);
-            softly.assertThat(eventsPage.getEventStatusDisplayed()).as("Check event status").isEqualTo(true);
-            softly.assertThat(eventsPage.getEventSpeakersCellDisplayed()).as("Check speakers cell").isEqualTo(true);
-            softly.assertThat(eventsPage.getEventSingleSpeakerDisplayed()).as("Check single speaker").isEqualTo(true);
-        }
-
-
-
-
+        softly.assertThat(eventsPage.getEventLanguageDisplayed()).as("Check language").isEqualTo(true);
+        softly.assertThat(eventsPage.getEventNameDisplayed()).as("Check event name").isEqualTo(true);
+        softly.assertThat(eventsPage.getEventDateDisplayed()).as("Check event date").isEqualTo(true);
+        softly.assertThat(eventsPage.getEventStatusDisplayed()).as("Check event status").isEqualTo(true);
+        softly.assertThat(eventsPage.getEventSpeakersCellDisplayed()).as("Check speakers cell").isEqualTo(true);
+        softly.assertThat(eventsPage.getEventSingleSpeakerDisplayed()).as("Check single speaker").isEqualTo(true);
+    }
 
 
     @Test
-    public void upcomingEventsTest(){
+    public void upcomingEventsTest() {
 
         EventsPage eventsPage = new EventsPage(driver);
 
@@ -74,22 +69,18 @@ public class OtusFinal_HW_Test extends BaseHooks{
 
         List<WebElement> cardsList = eventsPage.getEventsCards();
 
-        for(WebElement card : cardsList) {
+        for (WebElement card : cardsList) {
 
-            Assert.assertTrue(eventsPage.getEventDateEnd(card) >= LocalDate.now().toEpochDay());
+            assertTrue(eventsPage.getEventDateEnd(card) >= LocalDate.now().toEpochDay());
 
         }
-
-
-
-
 
 
     }
 
     @Test
     public void upcomingEventsCanadaTest() {
-        
+
         EventsPage eventsPage = new EventsPage(driver);
 
         eventsPage.open();
@@ -104,9 +95,9 @@ public class OtusFinal_HW_Test extends BaseHooks{
 
         List<WebElement> cardsList = eventsPage.getEventsCards();
 
-        for(WebElement card : cardsList) {
+        for (WebElement card : cardsList) {
 
-            Assert.assertTrue(eventsPage.getEventDateEnd(card) < LocalDate.now().toEpochDay());
+            assertTrue(eventsPage.getEventDateEnd(card) < LocalDate.now().toEpochDay());
 
         }
 
@@ -143,7 +134,7 @@ public class OtusFinal_HW_Test extends BaseHooks{
         videoPage.filerByEnglish();
         videoPage.openCard();
 
-        
+
         softly.assertThat(videoPage.getEventLanguageOnPage()).as("Check language").isEqualTo("ENGLISH");
         softly.assertThat(videoPage.getEventCountryOnPage()).as("Check location").isEqualTo("Belarus");
         softly.assertThat(videoPage.getEventCategoryOnPageDisplayed()).as("Check category").isEqualTo(true);
@@ -157,43 +148,35 @@ public class OtusFinal_HW_Test extends BaseHooks{
         VideoPage videoPage = new VideoPage(driver);
 
         videoPage.openVideoPage();
-       // videoPage.filerByTesting();
-       // videoPage.filerByBelarus();
-       // videoPage.filerByEnglish();
-       // videoPage.openCard();
+        // videoPage.filerByTesting();
+        // videoPage.filerByBelarus();
+        // videoPage.filerByEnglish();
+        // videoPage.openCard();
 
         videoPage.getCardsLinks();
     }
 
     @Test
-    public void searchTest(){
+    public void searchTest() {
 
         VideoPage videoPage = new VideoPage(driver);
 
         videoPage.openVideoPage();
-        videoPage.searchText();
+        config = ConfigFactory.create(TestConfig.class);
+        String textForSearch = config.epamTextForSearch();
+        videoPage.searchText(textForSearch);
 
-        videoPage.getCardsNames();
+        //videoPage.getCardsNames();
+        List<WebElement> cardsList = videoPage.getEventsCards();
 
-
-
-    }
-
-
-
-
-
-
-
-
-
-
-
-
-
-
+        for (WebElement card : cardsList) {
+            assertTrue(videoPage.getEventName(card).contains("QA"));
+        }
 
     }
+
+
+}
 
 
 

@@ -69,7 +69,7 @@ public class VideoPage extends AbstractPage {
 
 
 
-    public List<WebElement> getEventsCards() {
+    public List<WebElement> getEventsCards() { //Ищем карточки мероприятия
         List<WebElement> cards = driver.findElements(eventCardLocator);
         return cards;
     }
@@ -129,6 +129,7 @@ public class VideoPage extends AbstractPage {
 
     public VideoPage openCard(){
         driver.findElement(eventNameCardLocator).click();
+        logger.info("Клик по ссылке на страницу мероприятия");
 
 
 
@@ -136,7 +137,7 @@ public class VideoPage extends AbstractPage {
         return this;
     }
 
-    public String getEventLanguageOnPage() {
+    public String getEventLanguageOnPage() { //Поиск языка мероприятия на странице
 
         String language = driver.findElement(eventLanguagePageLocator).getText();
         logger.info("язык на странице: " + language);
@@ -144,15 +145,17 @@ public class VideoPage extends AbstractPage {
         return language;
     }
 
-    public String getEventCountryOnPage() {
+    public String getEventCountryOnPage() { //Поиск страны мероприятия на странице
 
         String location = driver.findElement(eventCountryPageLocator).getText();
         String[] array = location.split(", ");
+        logger.info("страна мероприятия:" + array[3]);
 
         return array[3];
     }
 
     public Boolean getEventCategoryOnPageDisplayed() {
+        logger.info("Категория мероприятия отображается:" + driver.findElement(eventCategoryPageLocator).isDisplayed());
                return driver.findElement(eventCategoryPageLocator).isDisplayed();
     }
 
@@ -164,9 +167,6 @@ public class VideoPage extends AbstractPage {
         videoPage.filerByTesting();
         videoPage.filerByBelarus();
         videoPage.filerByEnglish();;
-
-
-
 
         return this;
     }
@@ -204,42 +204,43 @@ public class VideoPage extends AbstractPage {
         public ArrayList<String> getCardsNames(){
 
 
-           //List<WebElement> cards2 = driver.findElements(By.xpath("//div[@class='evnt-talk-card']"));
-            List<WebElement> cards2 = getEventsCards();
+           //List<WebElement> cards = driver.findElements(By.xpath("//div[@class='evnt-talk-card']"));
+            List<WebElement> cards = getEventsCards();
 
-            //System.out.println(cards2);
+            //System.out.println(cards);
 
-            ArrayList<String> people2 = new ArrayList<String>();
+            ArrayList<String> eventName = new ArrayList<String>();
 
-            for(WebElement card : cards2) {
-
+            for(WebElement card : cards) {
 
                 card.findElement(eventNameLocator2).getText();
-                System.out.println(card.findElement(eventNameLocator2).getText());
-
-
-                people2.add(card.findElement(eventNameLocator2).getText());
+                eventName.add(card.findElement(eventNameLocator2).getText());
             }
 
-
-      return people2;
+      return eventName;
     }
 
-    public VideoPage searchText(){
+    public VideoPage searchText(String textForSearch){
         WebDriverWait wait = new WebDriverWait(driver, 1);
         driver.findElement(searchFieldLocator).click();
-        driver.findElement(searchFieldLocator).sendKeys("QA");
+        logger.info("Клик по полю поиска");
+        driver.findElement(searchFieldLocator).sendKeys(textForSearch);
+        logger.info("Введена строка для поиска");
         driver.findElement(searchFieldLocator).sendKeys(Keys.ENTER);
+        logger.info("Нажат Enter");
         wait.until(ExpectedConditions.invisibilityOfElementLocated(preloaderLocator));
 
         return this;
     }
 
-    /*public Boolean getNameContainsValue(cardName) {
-        return driver.findElement(eventCategoryPageLocator).isDisplayed();
-    }*/
 
+    public String getEventName(WebElement card) { //
 
+        String eventName = card.findElement(eventNameLocator2).getText();
+        logger.info("Название мероприятия: " + eventName);
+
+        return eventName;
+}
 
 
 
