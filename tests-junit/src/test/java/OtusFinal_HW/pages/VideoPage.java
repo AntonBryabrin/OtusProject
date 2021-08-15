@@ -19,7 +19,6 @@ public class VideoPage extends AbstractPage {
     TestConfig config;
     Logger logger = LogManager.getLogger(VideoPage.class);
 
-
     private By search = By.xpath("//input[@name='q']");
     private By loginButton = By.xpath("//button[@class='header2__auth js-open-modal']");
     private By emailField = By.xpath("//form[contains(@action, 'login')]/*/input");
@@ -148,10 +147,10 @@ public class VideoPage extends AbstractPage {
     public String getEventCountryOnPage() { //Поиск страны мероприятия на странице
 
         String location = driver.findElement(eventCountryPageLocator).getText();
-        String[] array = location.split(", ");
-        logger.info("страна мероприятия:" + array[3]);
+        //String[] array = location.split(", ");
+       // logger.info("страна мероприятия:" + array[3]);
 
-        return array[3];
+        return location;
     }
 
     public Boolean getEventCategoryOnPageDisplayed() {
@@ -171,7 +170,7 @@ public class VideoPage extends AbstractPage {
         return this;
     }
 
-    public VideoPage getCardsLinks() {
+    public ArrayList<String> getCardsLinks() {
 
 
         List<WebElement> cards = driver.findElements(By.xpath("//div[@class='evnt-talk-card']/a"));
@@ -186,33 +185,25 @@ public class VideoPage extends AbstractPage {
             people.add(link);
         }
 
-        for (int i = 0; i < people.size(); i++) {
-            System.out.println(people.get(i));
-            driver.get(people.get(i));
+        return people;
 
-            try {
-                Thread.sleep(2000);
-            } catch (InterruptedException e) {
-                e.printStackTrace();
-            }
-        }
+    }
+
+    public VideoPage openEventCard(String card){
+
+            driver.get(card);
 
         return this;
+
 
     }
 
         public ArrayList<String> getCardsNames(){
 
-
-           //List<WebElement> cards = driver.findElements(By.xpath("//div[@class='evnt-talk-card']"));
             List<WebElement> cards = getEventsCards();
-
-            //System.out.println(cards);
-
             ArrayList<String> eventName = new ArrayList<String>();
 
             for(WebElement card : cards) {
-
                 card.findElement(eventNameLocator2).getText();
                 eventName.add(card.findElement(eventNameLocator2).getText());
             }
@@ -221,6 +212,7 @@ public class VideoPage extends AbstractPage {
     }
 
     public VideoPage searchText(String textForSearch){
+
         WebDriverWait wait = new WebDriverWait(driver, 1);
         driver.findElement(searchFieldLocator).click();
         logger.info("Клик по полю поиска");

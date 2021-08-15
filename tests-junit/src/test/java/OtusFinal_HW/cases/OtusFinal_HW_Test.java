@@ -14,6 +14,7 @@ import OtusFinal_HW.utils.BaseHooks;
 import org.openqa.selenium.WebElement;
 
 import java.time.LocalDate;
+import java.util.ArrayList;
 import java.util.List;
 
 import static org.junit.Assert.assertTrue;
@@ -28,8 +29,7 @@ public class OtusFinal_HW_Test extends BaseHooks {
 
 
     @Test
-    public void numberOfupcomingEventsTest() {
-        // WebDriverWait wait = new WebDriverWait(driver, 25);
+    public void numberOfupcomingEventsTest() {                                        // ТЕСТ1
         config = ConfigFactory.create(TestConfig.class);
         EventsPage eventsPage = new EventsPage(driver);
 
@@ -41,9 +41,8 @@ public class OtusFinal_HW_Test extends BaseHooks {
     }
 
     @Test
-    public void pastEventsTest() {
+    public void pastEventsTest() {                                              //ТЕСТ 2
 
-        //config = ConfigFactory.create(TestConfig.class);
         EventsPage eventsPage = new EventsPage(driver);
 
         eventsPage.open();
@@ -57,74 +56,46 @@ public class OtusFinal_HW_Test extends BaseHooks {
         softly.assertThat(eventsPage.getEventSingleSpeakerDisplayed()).as("Check single speaker").isEqualTo(true);
     }
 
-
     @Test
-    public void upcomingEventsTest() {
+    public void upcomingEventsTest() {                                                          //ТЕСТ 3
 
         EventsPage eventsPage = new EventsPage(driver);
 
         eventsPage.open();
         eventsPage.openUpcomingEvents();
 
-
         List<WebElement> cardsList = eventsPage.getEventsCards();
 
         for (WebElement card : cardsList) {
 
             assertTrue(eventsPage.getEventDateEnd(card) >= LocalDate.now().toEpochDay());
-
         }
-
-
     }
 
     @Test
-    public void upcomingEventsCanadaTest() {
+    public void upcomingEventsCanadaTest() {                                                     //ТЕСТ 4
 
         EventsPage eventsPage = new EventsPage(driver);
 
         eventsPage.open();
-
         eventsPage.openPastEvents();
         eventsPage.filerByCanada();
 
         int actualNumber = eventsPage.countCards();
         int expectedNumber = eventsPage.getPastValue();
 
-        Assert.assertEquals(expectedNumber, actualNumber);
+        softly.assertThat(expectedNumber).as("Check number of cards").isEqualTo(actualNumber);
 
         List<WebElement> cardsList = eventsPage.getEventsCards();
 
         for (WebElement card : cardsList) {
 
-            assertTrue(eventsPage.getEventDateEnd(card) < LocalDate.now().toEpochDay());
-
+            softly.assertThat(eventsPage.getEventDateEnd(card) < LocalDate.now().toEpochDay());
         }
-
-
     }
 
-    /*@Test
-    public void categoryTest() {
-
-        EventsPage eventsPage = new EventsPage(driver);
-
-        eventsPage.open();
-        eventsPage.filerByTesting(); //Переписать на передачу значения в параметре
-        eventsPage.filerByBelarus(); //Переписать на передачу значения в параметре
-        eventsPage.filerByEnglish(); //Переписать на передачу значения в параметре
-
-        try {
-            Thread.sleep(10000);
-        } catch (InterruptedException e) {
-            e.printStackTrace();
-        }
-
-
-    }*/
-
     @Test
-    public void categoryTest() {
+    public void categoryTest() {                                                          //ТЕСТ 5 (Вариант с проверкой одной карточки)
 
         VideoPage videoPage = new VideoPage(driver);
 
@@ -134,30 +105,35 @@ public class OtusFinal_HW_Test extends BaseHooks {
         videoPage.filerByEnglish();
         videoPage.openCard();
 
-
         softly.assertThat(videoPage.getEventLanguageOnPage()).as("Check language").isEqualTo("ENGLISH");
         softly.assertThat(videoPage.getEventCountryOnPage()).as("Check location").isEqualTo("Belarus");
         softly.assertThat(videoPage.getEventCategoryOnPageDisplayed()).as("Check category").isEqualTo(true);
 
-
     }
 
     @Test
-    public void allPageTest() {
+    public void categoryTestAllCards() {                                                   //ТЕСТ 5 (Вариант с проверкой всех карточек)
 
         VideoPage videoPage = new VideoPage(driver);
 
         videoPage.openVideoPage();
-        // videoPage.filerByTesting();
-        // videoPage.filerByBelarus();
-        // videoPage.filerByEnglish();
-        // videoPage.openCard();
+         videoPage.filerByTesting();
+         videoPage.filerByBelarus();
+         videoPage.filerByEnglish();
 
-        videoPage.getCardsLinks();
+        ArrayList<String> cardsList = videoPage.getCardsLinks();
+
+        for (String card : cardsList) {
+
+            videoPage.openEventCard(card);
+            softly.assertThat(videoPage.getEventLanguageOnPage()).as("Check language").isEqualTo("ENGLISH");
+            softly.assertThat(videoPage.getEventCountryOnPage()).as("Check location").contains("Belarus");
+            softly.assertThat(videoPage.getEventCategoryOnPageDisplayed()).as("Check category").isEqualTo(true);
+        }
     }
 
     @Test
-    public void searchTest() {
+    public void searchTest() {                                                              //ТЕСТ 6
 
         VideoPage videoPage = new VideoPage(driver);
 
@@ -172,10 +148,7 @@ public class OtusFinal_HW_Test extends BaseHooks {
         for (WebElement card : cardsList) {
             assertTrue(videoPage.getEventName(card).contains("QA"));
         }
-
     }
-
-
 }
 
 
