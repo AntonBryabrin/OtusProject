@@ -1,23 +1,24 @@
 package OtusFinal_HW.pages;
 
-import OtusFinal_HW.utils.BaseHooks;
+
 import configuration.TestConfig;
 import org.aeonbits.owner.ConfigFactory;
 import org.apache.logging.log4j.LogManager;
 import org.apache.logging.log4j.Logger;
 import org.openqa.selenium.By;
-import org.openqa.selenium.Keys;
+
 import org.openqa.selenium.WebDriver;
 import org.openqa.selenium.WebElement;
 import org.openqa.selenium.support.ui.ExpectedConditions;
 import org.openqa.selenium.support.ui.WebDriverWait;
 
+
 import java.time.LocalDate;
 import java.time.format.DateTimeFormatter;
-import java.util.Arrays;
+
 import java.util.List;
 import java.util.Locale;
-import java.util.concurrent.TimeUnit;
+
 
 
 public class EventsPage extends AbstractPage {
@@ -25,8 +26,7 @@ public class EventsPage extends AbstractPage {
     Logger logger = LogManager.getLogger(EventsPage.class);
 
 
-    private By search = By.xpath("//input[@name='q']");
-    private By loginButton = By.xpath("//button[@class='header2__auth js-open-modal']");
+    
     private By emailField = By.xpath("//form[contains(@action, 'login')]/*/input");
     private By passwordField = By.xpath("//form[contains(@action, 'login')]/*//input[@name='password']");
 
@@ -40,7 +40,7 @@ public class EventsPage extends AbstractPage {
     private By languageLocator = By.xpath("//p[@class='language']/span");
     private By eventNameLocator = By.xpath("//div[@class='evnt-event-name']/*/span");
     private By preloaderLocator = By.xpath("//div[@class='evnt-global-loader']");
-    //private By eventDateLocator = By.xpath(".//span");
+
     private By eventDateLocator = By.xpath(".//div[@class='evnt-dates-cell dates']/*/span[@class='date']");
     private By eventStatusLocator = By.xpath("//div[@class='evnt-dates-cell dates']/*/span[contains(@class, 'status')]");
     private By eventSpeakersCellLocator = By.xpath("//div[@class='evnt-people-table']");
@@ -103,7 +103,7 @@ public class EventsPage extends AbstractPage {
         return EventCardWebElement.findElement(eventSingleSpeakerLocator).isDisplayed();
     }
 
-    public Long getEventDateEnd(WebElement card) { //
+    public Long getEventDateEnd(WebElement card) { //  Используется в upcomingEventsTest
 
         String dateText = card.findElement(eventDateLocator).getText();
         logger.info("Даты мероприятия: " + dateText);
@@ -113,18 +113,33 @@ public class EventsPage extends AbstractPage {
             dateText = array[1];
 
         } else {
-            DateTimeFormatter dateFormatter = DateTimeFormatter.ofPattern("d MMM u", Locale.ENGLISH); //!!!!Переделать на методы
+            /*DateTimeFormatter dateFormatter = DateTimeFormatter.ofPattern("d MMM u", Locale.ENGLISH); //!!!!Переделать на методы
             LocalDate date = LocalDate.parse(dateText, dateFormatter);
-            Long dateEpoch = date.toEpochDay();
+            Long dateEpoch = date.toEpochDay();*/
+
+            Long dateEpoch = getEpochDate(dateText);
+            logger.info("дата в epoch " + dateEpoch);
 
         }
 
+        Long dateEpoch = getEpochDate(dateText);
+        logger.info("дата в epoch " + dateEpoch);
+        /*DateTimeFormatter dateFormatter = DateTimeFormatter.ofPattern("d MMM u", Locale.ENGLISH); //!!!!Переделать на методы
+        LocalDate date = LocalDate.parse(dateText, dateFormatter);
+        Long dateEpoch = date.toEpochDay();*/
+
+        return dateEpoch;
+    }
+
+    public Long getEpochDate (String dateText){
         DateTimeFormatter dateFormatter = DateTimeFormatter.ofPattern("d MMM u", Locale.ENGLISH); //!!!!Переделать на методы
         LocalDate date = LocalDate.parse(dateText, dateFormatter);
         Long dateEpoch = date.toEpochDay();
 
         return dateEpoch;
     }
+
+
 
 
     public List<WebElement> getEventsCards() {
