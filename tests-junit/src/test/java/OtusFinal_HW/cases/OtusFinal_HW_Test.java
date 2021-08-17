@@ -106,7 +106,7 @@ public class OtusFinal_HW_Test extends BaseHooks {
         videoPage.openCard();
 
         softly.assertThat(videoPage.getEventLanguageOnPage()).as("Check language").isEqualTo("ENGLISH");
-        softly.assertThat(videoPage.getEventCountryOnPage()).as("Check location").isEqualTo("Belarus");
+        softly.assertThat(videoPage.getEventCountryOnPage()).as("Check location").contains("Belarus");
         softly.assertThat(videoPage.getEventCategoryOnPageDisplayed()).as("Check category").isEqualTo(true);
 
     }
