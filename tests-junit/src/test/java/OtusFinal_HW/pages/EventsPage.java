@@ -127,14 +127,12 @@ public class EventsPage extends AbstractPage {
 
     public Long getEpochDate (String dateText){
         DateTimeFormatter dateFormatter = DateTimeFormatter.ofPattern("dd MMM u", Locale.ENGLISH);
+        System.out.println("End date is (not epoch) " + dateText);
         LocalDate date = LocalDate.parse(dateText, dateFormatter);
         Long dateEpoch = date.toEpochDay();
 
         return dateEpoch;
     }
-
-
-
 
     public List<WebElement> getEventsCards() {
         List<WebElement> cards = driver.findElements(eventCardLocator);

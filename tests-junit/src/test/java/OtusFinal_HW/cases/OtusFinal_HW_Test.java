@@ -114,7 +114,7 @@ public class OtusFinal_HW_Test extends BaseHooks {
 
     }
 
-    @Test
+    /*@Test
     public void categoryTestAllCards() {                                                   //ТЕСТ 5 (Вариант с проверкой всех карточек)
         logger.info("Test 5 started: ");
         VideoPage videoPage = new VideoPage(driver);
@@ -134,7 +134,7 @@ public class OtusFinal_HW_Test extends BaseHooks {
             softly.assertThat(videoPage.getEventCategoryOnPageDisplayed()).as("Check category").isEqualTo(true);
 
         }
-    }
+    }*/
 
     @Test
     public void searchTest() { //ТЕСТ 6

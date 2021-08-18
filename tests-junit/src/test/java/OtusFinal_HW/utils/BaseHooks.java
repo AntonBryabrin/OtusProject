@@ -21,8 +21,8 @@ public class BaseHooks {
     @BeforeClass
     public static void setup() {
 
-       // driver = WebDriverFactory.createDriverWithOptions(WebDriverType.CHROME, "start-maximized");
-        driver = initDriver();
+        // driver = WebDriverFactory.createDriverWithOptions(WebDriverType.CHROME, "start-maximized");
+         driver = initDriver();
        // TestConfig config;
        // config = ConfigFactory.create(configuration.TestConfig.class);
 
