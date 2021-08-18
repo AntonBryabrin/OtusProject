@@ -64,49 +64,49 @@ public class EventsPage extends AbstractPage {
     public Boolean getEventLanguageDisplayed() {
 
         WebElement EventCardWebElement = driver.findElement(eventCardLocator);
-        logger.info("язык в карточке: " + EventCardWebElement.findElement(languageLocator).isDisplayed());
+        logger.info("language in card: " + EventCardWebElement.findElement(languageLocator).isDisplayed());
         return EventCardWebElement.findElement(languageLocator).isDisplayed();
     }
 
     public Boolean getEventNameDisplayed() {
 
         WebElement EventCardWebElement = driver.findElement(eventCardLocator);
-        logger.info("Название в карточке: " + EventCardWebElement.findElement(eventNameLocator).isDisplayed());
+        logger.info("name in card: " + EventCardWebElement.findElement(eventNameLocator).isDisplayed());
         return EventCardWebElement.findElement(eventNameLocator).isDisplayed();
     }
 
     public Boolean getEventDateDisplayed() {
 
         WebElement EventCardWebElement = driver.findElement(eventCardLocator);
-        logger.info("Дата в карточке: " + EventCardWebElement.findElement(eventDateLocator).isDisplayed());
+        logger.info("Date in card: " + EventCardWebElement.findElement(eventDateLocator).isDisplayed());
         return EventCardWebElement.findElement(eventDateLocator).isDisplayed();
     }
 
     public Boolean getEventStatusDisplayed() {
 
         WebElement EventCardWebElement = driver.findElement(eventCardLocator);
-        logger.info("Статус в карточке: " + EventCardWebElement.findElement(eventStatusLocator).isDisplayed());
+        logger.info("Status in card: " + EventCardWebElement.findElement(eventStatusLocator).isDisplayed());
         return EventCardWebElement.findElement(eventStatusLocator).isDisplayed();
     }
 
     public Boolean getEventSpeakersCellDisplayed() { //Проверка что отображается блок спикеров
 
         WebElement EventCardWebElement = driver.findElement(eventCardLocator);
-        logger.info("Блок спикеров в карточке: " + EventCardWebElement.findElement(eventSpeakersCellLocator).isDisplayed());
+        logger.info("Speakers block in card is displayed: " + EventCardWebElement.findElement(eventSpeakersCellLocator).isDisplayed());
         return EventCardWebElement.findElement(eventSpeakersCellLocator).isDisplayed();
     }
 
     public Boolean getEventSingleSpeakerDisplayed() { //Проверка что отображается хотя бы один спикер в карточке
 
         WebElement EventCardWebElement = driver.findElement(eventCardLocator);
-        logger.info("Спикер в карточке: " + EventCardWebElement.findElement(eventSingleSpeakerLocator).isDisplayed());
+        logger.info("Speaker in card displayed: " + EventCardWebElement.findElement(eventSingleSpeakerLocator).isDisplayed());
         return EventCardWebElement.findElement(eventSingleSpeakerLocator).isDisplayed();
     }
 
     public Long getEventDateEnd(WebElement card) { //  Используется в upcomingEventsTest
 
         String dateText = card.findElement(eventDateLocator).getText();
-        logger.info("Даты мероприятия: " + dateText);
+        logger.info("Date on event: " + dateText);
 
         if (!dateText.matches("\\d{2} ([\\S]+) \\d{4}$")) {
             String[] array = dateText.split(" - ");
@@ -118,12 +118,12 @@ public class EventsPage extends AbstractPage {
             Long dateEpoch = date.toEpochDay();*/
 
             Long dateEpoch = getEpochDate(dateText);
-            logger.info("дата в epoch " + dateEpoch);
+            logger.info("Date in epoch " + dateEpoch);
 
         }
 
         Long dateEpoch = getEpochDate(dateText);
-        logger.info("дата в epoch " + dateEpoch);
+        logger.info("Date in epoch " + dateEpoch);
         /*DateTimeFormatter dateFormatter = DateTimeFormatter.ofPattern("d MMM u", Locale.ENGLISH); //!!!!Переделать на методы
         LocalDate date = LocalDate.parse(dateText, dateFormatter);
         Long dateEpoch = date.toEpochDay();*/
@@ -151,9 +151,9 @@ public class EventsPage extends AbstractPage {
 
         config = ConfigFactory.create(TestConfig.class);
         driver.get(config.eventsPage());
-        logger.info("Открыта главная страница");
+        logger.info("Main page opened");
         driver.findElement(eventsLinkLocator).click();
-        logger.info("Открыта страница мероприятий");
+        logger.info("Events page opened");
 
         return this;
     }
@@ -161,7 +161,7 @@ public class EventsPage extends AbstractPage {
     public EventsPage openPastEvents() {
         WebDriverWait wait = new WebDriverWait(driver, 5);
         driver.findElement(pastEventsLinkLocator).click();
-        logger.info("Переход на прошедшие мероприятия");
+        logger.info("Go to previous events");
         wait.until(ExpectedConditions.invisibilityOfElementLocated(preloaderLocator));
         return this;
     }
@@ -169,7 +169,7 @@ public class EventsPage extends AbstractPage {
     public EventsPage openUpcomingEvents() {
         WebDriverWait wait = new WebDriverWait(driver, 5);
         driver.findElement(upcomingEventsLinkLocator).click();
-        logger.info("Переход на предстоящие мероприятия");
+        logger.info("Go to future events");
         wait.until(ExpectedConditions.invisibilityOfElementLocated(preloaderLocator));
         return this;
     }
@@ -177,16 +177,20 @@ public class EventsPage extends AbstractPage {
     public int countCards() {
 
         int upcomingCardsNumber = driver.findElements(eventCardLocator).size();
-        logger.info("Получено количество карточек мероприятий " + upcomingCardsNumber);
+        logger.info("Get number of events cards " + upcomingCardsNumber);
 
         return upcomingCardsNumber;
     }
 
     public int getUpcomingValue() {
 
+        WebDriverWait wait = new WebDriverWait(driver, 5);
+
         String upcomingValueString = driver.findElement(upcomingCounterLocator).getText();
         int upcomingValueInt = Integer.parseInt(upcomingValueString);
-        logger.info("Получено количество будущих мероприятий " + upcomingValueInt);
+        logger.info("Get number of future events cards " + upcomingValueInt);
+
+        wait.until(ExpectedConditions.invisibilityOfElementLocated(preloaderLocator));
 
         return upcomingValueInt;
     }
@@ -195,7 +199,7 @@ public class EventsPage extends AbstractPage {
 
         String pastValueString = driver.findElement(pastCounterLocator).getText();
         int pastValueInt = Integer.parseInt(pastValueString);
-        logger.info("Получено количество прошедших мероприятий " + pastValueInt);
+        logger.info("Got number of past events " + pastValueInt);
 
         return pastValueInt;
     }
@@ -203,7 +207,7 @@ public class EventsPage extends AbstractPage {
     public EventsPage filerByCanada() {
         WebDriverWait wait = new WebDriverWait(driver, 5);
         driver.findElement(locationDropdownLocalor).click();
-        logger.info("Открыт Гео дропдаун");
+        logger.info("Geo dropdown opened");
         driver.findElement(dropdownCanadaLocalor).click();
         wait.until(ExpectedConditions.invisibilityOfElementLocated(preloaderLocator));
         driver.findElement(By.xpath("//div[@class='evnt-events-wrapper']")).click();
@@ -213,7 +217,7 @@ public class EventsPage extends AbstractPage {
     public EventsPage filerByTesting() {
         WebDriverWait wait = new WebDriverWait(driver, 5);
         driver.findElement(categoryDropdownLocalor).click();
-        logger.info("Открыт Категория дропдаун");
+        logger.info("Category dropdown opened");
         driver.findElement(dropdownTestingLocalor).click();
         logger.info("Выбрана категория Тестирование");
         //wait.until(ExpectedConditions.invisibilityOfElementLocated(preloaderLocator));

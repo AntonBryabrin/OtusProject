@@ -31,6 +31,7 @@ public class OtusFinal_HW_Test extends BaseHooks {
     @Test
     public void numberOfupcomingEventsTest() {                                        // ТЕСТ1
         config = ConfigFactory.create(TestConfig.class);
+        logger.info("Test 1 started: ");
         EventsPage eventsPage = new EventsPage(driver);
 
         eventsPage.open();
@@ -42,7 +43,7 @@ public class OtusFinal_HW_Test extends BaseHooks {
 
     @Test
     public void pastEventsTest() {                                              //ТЕСТ 2
-
+        logger.info("Test 2 started: ");
         EventsPage eventsPage = new EventsPage(driver);
 
         eventsPage.open();
@@ -57,7 +58,8 @@ public class OtusFinal_HW_Test extends BaseHooks {
     }
 
     @Test
-    public void upcomingEventsTest() {                                                          //ТЕСТ 3
+    public void upcomingEventsTest() { //ТЕСТ 3
+        logger.info("Test 3 started: ");
 
         EventsPage eventsPage = new EventsPage(driver);
 
@@ -73,7 +75,8 @@ public class OtusFinal_HW_Test extends BaseHooks {
     }
 
     @Test
-    public void upcomingEventsCanadaTest() {                                                     //ТЕСТ 4
+    public void upcomingEventsCanadaTest() { //ТЕСТ 4
+        logger.info("Test 4 started: ");
 
         EventsPage eventsPage = new EventsPage(driver);
 
@@ -96,7 +99,7 @@ public class OtusFinal_HW_Test extends BaseHooks {
 
     @Test
     public void categoryTest() {                                                          //ТЕСТ 5 (Вариант с проверкой одной карточки)
-
+        logger.info("Test 5/1 started: ");
         VideoPage videoPage = new VideoPage(driver);
 
         videoPage.openVideoPage();
@@ -113,7 +116,7 @@ public class OtusFinal_HW_Test extends BaseHooks {
 
     @Test
     public void categoryTestAllCards() {                                                   //ТЕСТ 5 (Вариант с проверкой всех карточек)
-
+        logger.info("Test 5 started: ");
         VideoPage videoPage = new VideoPage(driver);
 
         videoPage.openVideoPage();
@@ -126,14 +129,17 @@ public class OtusFinal_HW_Test extends BaseHooks {
         for (String card : cardsList) {
 
             videoPage.openEventCard(card);
+
             softly.assertThat(videoPage.getEventLanguageOnPage()).as("Check language").isEqualTo("ENGLISH");
             softly.assertThat(videoPage.getEventCountryOnPage()).as("Check location").contains("Belarus");
             softly.assertThat(videoPage.getEventCategoryOnPageDisplayed()).as("Check category").isEqualTo(true);
+
         }
     }
 
     @Test
-    public void searchTest() {                                                              //ТЕСТ 6
+    public void searchTest() { //ТЕСТ 6
+        logger.info("Test 6 started: ");
 
         VideoPage videoPage = new VideoPage(driver);
 

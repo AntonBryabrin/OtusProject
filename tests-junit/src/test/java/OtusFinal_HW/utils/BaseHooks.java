@@ -12,6 +12,8 @@ import org.openqa.selenium.support.ui.WebDriverWait;
 
 import java.util.concurrent.TimeUnit;
 
+import static OtusFinal_HW.utils.WebDriverInit.initDriver;
+
 public class BaseHooks {
     protected static WebDriver driver;
 
@@ -19,7 +21,8 @@ public class BaseHooks {
     @BeforeClass
     public static void setup() {
 
-        driver = WebDriverFactory.createDriverWithOptions(WebDriverType.CHROME, "start-maximized");
+       // driver = WebDriverFactory.createDriverWithOptions(WebDriverType.CHROME, "start-maximized");
+        driver = initDriver();
         TestConfig config;
         config = ConfigFactory.create(configuration.TestConfig.class);
 

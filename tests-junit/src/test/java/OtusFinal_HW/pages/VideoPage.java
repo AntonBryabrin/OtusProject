@@ -31,7 +31,7 @@ public class VideoPage extends AbstractPage {
     private By dropdownBelarusLocalor = By.xpath("//label[@data-value='Belarus']");
     private By dropdownEnglishLocalor = By.xpath("//label[@data-value='ENGLISH']");
     private By eventNameCardLocator = By.xpath(".//div[@class='evnt-talk-name']");
-    private By eventLanguagePageLocator = By.xpath("//div[@class='evnt-talk-details language evnt-now-past-talk']");
+    private By eventLanguagePageLocator = By.xpath("//div[@class='evnt-talk-details language evnt-now-past-talk']/span");
     private By eventCountryPageLocator = By.xpath("//div[@class='evnt-talk-details location evnt-now-past-talk']/span");
     private By eventCategoryPageLocator = By.xpath("//div[@class='evnt-topics-wrapper']/div/label[contains(text(),'Testing')]");
     private By dropdownTestingLocalor = By.xpath("//label[@data-value='Testing']");
@@ -59,10 +59,10 @@ public class VideoPage extends AbstractPage {
 
         config = ConfigFactory.create(TestConfig.class);
         driver.get(config.eventsPage());
-        logger.info("Открыта главная страница");
+        logger.info("main page opened");
 
         driver.findElement(videoLinkLocator).click();
-        logger.info("Открыта страница Talks Library");
+        logger.info("Talks Library page opened");
 
         return this;
     }
@@ -70,22 +70,26 @@ public class VideoPage extends AbstractPage {
     public VideoPage filerByTesting() {
         WebDriverWait wait = new WebDriverWait(driver, 5);
         driver.findElement(categoryDropdownLocalor).click();
-        logger.info("Открыт Категория дропдаун");
+        logger.info("Category dropdown opened");
+        wait.until(ExpectedConditions.invisibilityOfElementLocated(preloaderLocator));
         driver.findElement(dropdownTestingLocalor).click();
-        logger.info("Выбрана категория Тестирование");
+        logger.info("Testing category selected");
         wait.until(ExpectedConditions.invisibilityOfElementLocated(preloaderLocator));
 
         return this;
     }
 
     public VideoPage filerByBelarus() {
+
         WebDriverWait wait = new WebDriverWait(driver, 5);
         driver.findElement(filtersLocator).click();
-        logger.info("Открыты Дополнительные фильтры");
+        logger.info("Filters opened");
+        wait.until(ExpectedConditions.invisibilityOfElementLocated(preloaderLocator));
         driver.findElement(locationDropdownLocalor).click();
-        logger.info("Открыт Гео дропдаун");
+        logger.info("Geo dropdown opened");
+        wait.until(ExpectedConditions.invisibilityOfElementLocated(preloaderLocator));
         driver.findElement(dropdownBelarusLocalor).click();
-        logger.info("Выбрана беларусь");
+        logger.info("Belarus selected");
         wait.until(ExpectedConditions.invisibilityOfElementLocated(preloaderLocator));
 
         return this;
@@ -95,9 +99,14 @@ public class VideoPage extends AbstractPage {
         WebDriverWait wait = new WebDriverWait(driver, 5);
 
         driver.findElement(filterLanguageLocator).click();
-        logger.info("Открыт дропдаун Языков");
+
+        logger.info("Language dropdown opened");
+        wait.until(ExpectedConditions.invisibilityOfElementLocated(preloaderLocator));
+
         driver.findElement(dropdownEnglishLocalor).click();
-        logger.info("Выбран английский язык");
+        logger.info("English language selected");
+        wait.until(ExpectedConditions.invisibilityOfElementLocated(preloaderLocator));
+
         driver.findElement(By.xpath("//input[@placeholder='Search by Talk Name']")).click();
         wait.until(ExpectedConditions.invisibilityOfElementLocated(preloaderLocator));
 
@@ -106,15 +115,17 @@ public class VideoPage extends AbstractPage {
 
     public VideoPage openCard(){
         driver.findElement(eventNameCardLocator).click();
-        logger.info("Клик по ссылке на страницу мероприятия");
+        logger.info("Click on events link");
 
         return this;
     }
 
     public String getEventLanguageOnPage() { //Поиск языка мероприятия на странице
+        WebDriverWait wait = new WebDriverWait(driver, 5);
 
         String language = driver.findElement(eventLanguagePageLocator).getText();
-        logger.info("язык на странице: " + language);
+        logger.info("language on page: " + language);
+        wait.until(ExpectedConditions.invisibilityOfElementLocated(preloaderLocator));
 
         return language;
     }
@@ -127,7 +138,7 @@ public class VideoPage extends AbstractPage {
     }
 
     public Boolean getEventCategoryOnPageDisplayed() {
-        logger.info("Категория мероприятия отображается:" + driver.findElement(eventCategoryPageLocator).isDisplayed());
+        logger.info("Category is displayed: " + driver.findElement(eventCategoryPageLocator).isDisplayed());
                return driver.findElement(eventCategoryPageLocator).isDisplayed();
     }
 
@@ -163,8 +174,9 @@ public class VideoPage extends AbstractPage {
     }
 
     public VideoPage openEventCard(String card){
+        System.out.println("open link "+ card.toString());
+            driver.get(card.toString());
 
-            driver.get(card);
 
         return this;
 
@@ -186,13 +198,15 @@ public class VideoPage extends AbstractPage {
 
     public VideoPage searchText(String textForSearch){
 
-        WebDriverWait wait = new WebDriverWait(driver, 1);
+        WebDriverWait wait = new WebDriverWait(driver, 5);
         driver.findElement(searchFieldLocator).click();
-        logger.info("Клик по полю поиска");
+        logger.info("Click on search field");
+        wait.until(ExpectedConditions.invisibilityOfElementLocated(preloaderLocator));
         driver.findElement(searchFieldLocator).sendKeys(textForSearch);
-        logger.info("Введена строка для поиска");
+        logger.info("String for search entered");
+        wait.until(ExpectedConditions.invisibilityOfElementLocated(preloaderLocator));
         driver.findElement(searchFieldLocator).sendKeys(Keys.ENTER);
-        logger.info("Нажат Enter");
+        logger.info("Pressed Enter");
         wait.until(ExpectedConditions.invisibilityOfElementLocated(preloaderLocator));
 
         return this;
@@ -202,7 +216,7 @@ public class VideoPage extends AbstractPage {
     public String getEventName(WebElement card) { //
 
         String eventName = card.findElement(eventNameLocator2).getText();
-        logger.info("Название мероприятия: " + eventName);
+        logger.info("Event name: " + eventName);
 
         return eventName;
 }
