@@ -113,9 +113,6 @@ public class EventsPage extends AbstractPage {
             dateText = array[1];
 
         } else {
-            /*DateTimeFormatter dateFormatter = DateTimeFormatter.ofPattern("d MMM u", Locale.ENGLISH); //!!!!Переделать на методы
-            LocalDate date = LocalDate.parse(dateText, dateFormatter);
-            Long dateEpoch = date.toEpochDay();*/
 
             Long dateEpoch = getEpochDate(dateText);
             logger.info("Date in epoch " + dateEpoch);
@@ -124,15 +121,12 @@ public class EventsPage extends AbstractPage {
 
         Long dateEpoch = getEpochDate(dateText);
         logger.info("Date in epoch " + dateEpoch);
-        /*DateTimeFormatter dateFormatter = DateTimeFormatter.ofPattern("d MMM u", Locale.ENGLISH); //!!!!Переделать на методы
-        LocalDate date = LocalDate.parse(dateText, dateFormatter);
-        Long dateEpoch = date.toEpochDay();*/
 
         return dateEpoch;
     }
 
     public Long getEpochDate (String dateText){
-        DateTimeFormatter dateFormatter = DateTimeFormatter.ofPattern("d MMM u", Locale.ENGLISH); //!!!!Переделать на методы
+        DateTimeFormatter dateFormatter = DateTimeFormatter.ofPattern("dd MMM u", Locale.ENGLISH);
         LocalDate date = LocalDate.parse(dateText, dateFormatter);
         Long dateEpoch = date.toEpochDay();
 

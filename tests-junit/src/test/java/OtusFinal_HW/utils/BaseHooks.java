@@ -23,8 +23,8 @@ public class BaseHooks {
 
        // driver = WebDriverFactory.createDriverWithOptions(WebDriverType.CHROME, "start-maximized");
         driver = initDriver();
-        TestConfig config;
-        config = ConfigFactory.create(configuration.TestConfig.class);
+       // TestConfig config;
+       // config = ConfigFactory.create(configuration.TestConfig.class);
 
         if (driver != null) {
             driver.manage().timeouts().implicitlyWait(5, TimeUnit.SECONDS);

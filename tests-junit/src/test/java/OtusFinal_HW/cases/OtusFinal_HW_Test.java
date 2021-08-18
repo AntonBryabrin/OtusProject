@@ -118,11 +118,10 @@ public class OtusFinal_HW_Test extends BaseHooks {
     public void categoryTestAllCards() {                                                   //ТЕСТ 5 (Вариант с проверкой всех карточек)
         logger.info("Test 5 started: ");
         VideoPage videoPage = new VideoPage(driver);
-
         videoPage.openVideoPage();
-         videoPage.filerByTesting();
-         videoPage.filerByBelarus();
-         videoPage.filerByEnglish();
+        videoPage.filerByTesting();
+        videoPage.filerByBelarus();
+        videoPage.filerByEnglish();
 
         ArrayList<String> cardsList = videoPage.getCardsLinks();
 
