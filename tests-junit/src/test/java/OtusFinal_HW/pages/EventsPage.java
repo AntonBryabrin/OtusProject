@@ -140,12 +140,14 @@ public class EventsPage extends AbstractPage {
     }
 
     public EventsPage open() {
-
+        WebDriverWait wait = new WebDriverWait(driver, 5);
         config = ConfigFactory.create(TestConfig.class);
         driver.get(config.eventsPage());
         logger.info("Main page opened");
+        wait.until(ExpectedConditions.invisibilityOfElementLocated(preloaderLocator));
         driver.findElement(eventsLinkLocator).click();
         logger.info("Events page opened");
+        wait.until(ExpectedConditions.invisibilityOfElementLocated(preloaderLocator));
 
         return this;
     }

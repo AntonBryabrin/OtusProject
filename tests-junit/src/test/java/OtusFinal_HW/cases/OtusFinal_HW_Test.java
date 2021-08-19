@@ -1,6 +1,7 @@
 package OtusFinal_HW.cases;
 
 
+import io.qameta.allure.Step;
 import org.aeonbits.owner.ConfigFactory;
 import org.apache.logging.log4j.LogManager;
 import org.apache.logging.log4j.Logger;
@@ -29,6 +30,7 @@ public class OtusFinal_HW_Test extends BaseHooks {
 
 
     @Test
+    @Step
     public void numberOfupcomingEventsTest() {                                        // ТЕСТ1
         config = ConfigFactory.create(TestConfig.class);
         logger.info("Test 1 started: ");
@@ -42,6 +44,7 @@ public class OtusFinal_HW_Test extends BaseHooks {
     }
 
     @Test
+    @Step
     public void pastEventsTest() {                                              //ТЕСТ 2
         logger.info("Test 2 started: ");
         EventsPage eventsPage = new EventsPage(driver);
@@ -58,6 +61,7 @@ public class OtusFinal_HW_Test extends BaseHooks {
     }
 
     @Test
+    @Step
     public void upcomingEventsTest() { //ТЕСТ 3
         logger.info("Test 3 started: ");
 
@@ -75,6 +79,7 @@ public class OtusFinal_HW_Test extends BaseHooks {
     }
 
     @Test
+    @Step
     public void upcomingEventsCanadaTest() { //ТЕСТ 4
         logger.info("Test 4 started: ");
 
@@ -98,6 +103,7 @@ public class OtusFinal_HW_Test extends BaseHooks {
     }
 
     @Test
+    @Step
     public void categoryTest() {                                                          //ТЕСТ 5 (Вариант с проверкой одной карточки)
         logger.info("Test 5/1 started: ");
         VideoPage videoPage = new VideoPage(driver);
@@ -137,6 +143,7 @@ public class OtusFinal_HW_Test extends BaseHooks {
     }*/
 
     @Test
+    @Step
     public void searchTest() { //ТЕСТ 6
         logger.info("Test 6 started: ");
 
