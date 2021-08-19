@@ -130,6 +130,7 @@
         </plugins>
 
     </build>-->
+<<<<<<< Updated upstream
     <!--<build>
         <plugins>
             <plugin>
@@ -175,6 +176,8 @@
 
         </plugins>
     </build>-->
+=======
+>>>>>>> Stashed changes
     <build>
         <plugins>
             <plugin>
@@ -207,8 +210,11 @@
 
 
 
+<<<<<<< Updated upstream
 
 
+=======
+>>>>>>> Stashed changes
             <plugin>
                 <groupId>io.qameta.allure</groupId>
                 <artifactId>allure-maven</artifactId>
