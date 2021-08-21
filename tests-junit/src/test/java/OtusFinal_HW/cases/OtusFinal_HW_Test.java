@@ -1,10 +1,7 @@
 package OtusFinal_HW.cases;
 
 
-import io.qameta.allure.Epic;
-import io.qameta.allure.Feature;
-import io.qameta.allure.Step;
-import io.qameta.allure.Story;
+import io.qameta.allure.*;
 import org.aeonbits.owner.ConfigFactory;
 import org.apache.logging.log4j.LogManager;
 import org.apache.logging.log4j.Logger;
@@ -15,8 +12,11 @@ import org.junit.Test;
 import configuration.TestConfig;
 import OtusFinal_HW.pages.*;
 import OtusFinal_HW.utils.BaseHooks;
+import org.openqa.selenium.OutputType;
+import org.openqa.selenium.TakesScreenshot;
 import org.openqa.selenium.WebElement;
 
+import java.io.ByteArrayInputStream;
 import java.time.LocalDate;
 import java.util.ArrayList;
 import java.util.List;
@@ -43,6 +43,7 @@ public class OtusFinal_HW_Test extends BaseHooks {
         eventsPage.open();
         int actualNumber = eventsPage.countCards();
         int expectedNumber = eventsPage.getUpcomingValue();
+        Allure.addAttachment("Test 1 Screen", new ByteArrayInputStream(((TakesScreenshot) driver).getScreenshotAs(OutputType.BYTES)));
         Assert.assertEquals(expectedNumber, actualNumber);
     }
 
@@ -53,9 +54,9 @@ public class OtusFinal_HW_Test extends BaseHooks {
     public void pastEventsTest() {                                              //ТЕСТ 2
         logger.info("Test 2 started: ");
         EventsPage eventsPage = new EventsPage(driver);
-
         eventsPage.open();
         eventsPage.openPastEvents();
+        Allure.addAttachment("Test 2 Screen", new ByteArrayInputStream(((TakesScreenshot) driver).getScreenshotAs(OutputType.BYTES)));
 
         softly.assertThat(eventsPage.getEventLanguageDisplayed()).as("Check language").isEqualTo(true);
         softly.assertThat(eventsPage.getEventNameDisplayed()).as("Check event name").isEqualTo(true);
@@ -78,10 +79,11 @@ public class OtusFinal_HW_Test extends BaseHooks {
         eventsPage.openUpcomingEvents();
 
         List<WebElement> cardsList = eventsPage.getEventsCards();
+        Allure.addAttachment("Test 3 Screen", new ByteArrayInputStream(((TakesScreenshot) driver).getScreenshotAs(OutputType.BYTES)));
 
         for (WebElement card : cardsList) {
 
-            assertTrue(eventsPage.getEventDateEnd(card) >= LocalDate.now().toEpochDay());
+            assertTrue("Check that the event date is later than the current, in " + card.getAttribute("innerHTML"),eventsPage.getEventDateEnd(card) >= LocalDate.now().toEpochDay());
         }
     }
 
@@ -104,10 +106,11 @@ public class OtusFinal_HW_Test extends BaseHooks {
         softly.assertThat(expectedNumber).as("Check number of cards").isEqualTo(actualNumber);
 
         List<WebElement> cardsList = eventsPage.getEventsCards();
+        Allure.addAttachment("Test 4 Screen", new ByteArrayInputStream(((TakesScreenshot) driver).getScreenshotAs(OutputType.BYTES)));
 
         for (WebElement card : cardsList) {
 
-            softly.assertThat(eventsPage.getEventDateEnd(card) < LocalDate.now().toEpochDay());
+            softly.assertThat(eventsPage.getEventDateEnd(card) < LocalDate.now().toEpochDay()).as("Check that the event date is earlier than the current");
         }
     }
 
@@ -124,6 +127,8 @@ public class OtusFinal_HW_Test extends BaseHooks {
         videoPage.filerByBelarus();
         videoPage.filerByEnglish();
         videoPage.openCard();
+
+        Allure.addAttachment("Test 5 Screen ", new ByteArrayInputStream(((TakesScreenshot) driver).getScreenshotAs(OutputType.BYTES)));
 
         softly.assertThat(videoPage.getEventLanguageOnPage()).as("Check language").isEqualTo("ENGLISH");
         softly.assertThat(videoPage.getEventCountryOnPage()).as("Check location").contains("Belarus");
@@ -161,7 +166,6 @@ public class OtusFinal_HW_Test extends BaseHooks {
         logger.info("Test 6 started: ");
 
         VideoPage videoPage = new VideoPage(driver);
-
         videoPage.openVideoPage();
         config = ConfigFactory.create(TestConfig.class);
         String textForSearch = config.epamTextForSearch();
@@ -169,9 +173,11 @@ public class OtusFinal_HW_Test extends BaseHooks {
 
         //videoPage.getCardsNames();
         List<WebElement> cardsList = videoPage.getEventsCards();
+        Allure.addAttachment("Test 6 Screen", new ByteArrayInputStream(((TakesScreenshot) driver).getScreenshotAs(OutputType.BYTES)));
 
         for (WebElement card : cardsList) {
-            assertTrue(videoPage.getEventName(card).contains("QA"));
+
+            assertTrue("Check that card contains text (" + textForSearch + "). Card html: " + card.getAttribute("innerHTML"),videoPage.getEventName(card).contains(textForSearch));
         }
     }
 }

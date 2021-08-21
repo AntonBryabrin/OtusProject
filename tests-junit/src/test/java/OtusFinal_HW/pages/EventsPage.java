@@ -24,8 +24,8 @@ public class EventsPage extends AbstractPage {
     private By eventsLinkLocator = By.xpath("//a[@class='nav-link' and @href='/events']");
     private By pastEventsLinkLocator = By.xpath("//a[contains(@class, 'evnt-tab-link nav-link') and .//span[contains(text(), 'Past Events')]]");
     private By eventCardLocator = By.xpath("//a/div[@class='evnt-card-wrapper']");
-    private By upcomingCounterLocator = By.xpath("(//span[@class='evnt-tab-counter evnt-label small white'])[1]"); //Переделать на элемент без счета
-    private By pastCounterLocator = By.xpath("(//span[@class='evnt-tab-counter evnt-label small white'])[2]"); //Переделать на элемент без счета
+    private By upcomingCounterLocator = By.xpath("(//span[@class='evnt-tab-counter evnt-label small white'])[1]");
+    private By pastCounterLocator = By.xpath("(//span[@class='evnt-tab-counter evnt-label small white'])[2]");
     private By languageLocator = By.xpath("//p[@class='language']/span");
     private By eventNameLocator = By.xpath("//div[@class='evnt-event-name']/*/span");
     private By preloaderLocator = By.xpath("//div[@class='evnt-global-loader']");

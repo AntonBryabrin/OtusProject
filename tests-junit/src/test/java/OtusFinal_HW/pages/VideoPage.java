@@ -10,8 +10,6 @@ import org.openqa.selenium.WebDriver;
 import org.openqa.selenium.WebElement;
 import org.openqa.selenium.support.ui.ExpectedConditions;
 import org.openqa.selenium.support.ui.WebDriverWait;
-
-import java.util.ArrayList;
 import java.util.List;
 
 
@@ -127,51 +125,6 @@ public class VideoPage extends AbstractPage {
         logger.info("Category is displayed: " + driver.findElement(eventCategoryPageLocator).isDisplayed());
                return driver.findElement(eventCategoryPageLocator).isDisplayed();
     }
-
-
-    public VideoPage allpage(){
-
-        VideoPage videoPage = new VideoPage(driver);
-        videoPage.openVideoPage();
-        videoPage.filerByTesting();
-        videoPage.filerByBelarus();
-        videoPage.filerByEnglish();;
-        return this;
-    }
-
-    /*public ArrayList<String> getCardsLinks() {
-        List<WebElement> cards = driver.findElements(By.xpath("//div[@class='evnt-talk-card']/a"));
-        ArrayList<String> people = new ArrayList<String>();
-
-        for (WebElement card : cards) {
-            card.getText();
-            String link = card.getAttribute("href");
-            System.out.println(link);
-            people.add(link);
-        }
-        return people;
-    }
-
-    public VideoPage openEventCard(String card){
-        System.out.println("open link "+ card.toString());
-            driver.get(card.toString());
-        return this;
-
-
-    }*/
-
-        /*public ArrayList<String> getCardsNames(){
-
-            List<WebElement> cards = getEventsCards();
-            ArrayList<String> eventName = new ArrayList<String>();
-
-            for(WebElement card : cards) {
-                card.findElement(eventNameLocator2).getText();
-                eventName.add(card.findElement(eventNameLocator2).getText());
-            }
-
-      return eventName;
-    }*/
 
     public VideoPage searchText(String textForSearch){
 
