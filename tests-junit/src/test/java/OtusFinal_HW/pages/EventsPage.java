@@ -40,9 +40,6 @@ public class EventsPage extends AbstractPage {
     private By dropdownCanadaLocalor = By.xpath("//label[@data-value='Canada']");
     private By dropdownEnglishLocalor = By.xpath("//label[@data-value='ENGLISH']");
 
-
-
-
     public EventsPage(WebDriver driver) {
         super(driver);
     }
