@@ -8,8 +8,10 @@
         <outputRelativeToContentRoot value="true" />
         <module name="tests-junit" />
         <module name="model" />
-        <module name="tests-testng" />
       </profile>
     </annotationProcessing>
+    <bytecodeTargetLevel>
+      <module name="tests-testng" target="8" />
+    </bytecodeTargetLevel>
   </component>
 </project>
