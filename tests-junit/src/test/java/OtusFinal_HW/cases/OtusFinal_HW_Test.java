@@ -1,7 +1,10 @@
 package OtusFinal_HW.cases;
 
 
+import io.qameta.allure.Epic;
+import io.qameta.allure.Feature;
 import io.qameta.allure.Step;
+import io.qameta.allure.Story;
 import org.aeonbits.owner.ConfigFactory;
 import org.apache.logging.log4j.LogManager;
 import org.apache.logging.log4j.Logger;
@@ -30,21 +33,23 @@ public class OtusFinal_HW_Test extends BaseHooks {
 
 
     @Test
-    @Step
+    @Epic("EVENTS")
+    @Feature("Search")
+    @Story("Check number of upcoming cards")
     public void numberOfupcomingEventsTest() {                                        // ТЕСТ1
         config = ConfigFactory.create(TestConfig.class);
         logger.info("Test 1 started: ");
         EventsPage eventsPage = new EventsPage(driver);
-
         eventsPage.open();
         int actualNumber = eventsPage.countCards();
         int expectedNumber = eventsPage.getUpcomingValue();
-
         Assert.assertEquals(expectedNumber, actualNumber);
     }
 
     @Test
-    @Step
+    @Epic("EVENTS")
+    @Feature("Search")
+    @Story("Search past events")
     public void pastEventsTest() {                                              //ТЕСТ 2
         logger.info("Test 2 started: ");
         EventsPage eventsPage = new EventsPage(driver);
@@ -61,7 +66,9 @@ public class OtusFinal_HW_Test extends BaseHooks {
     }
 
     @Test
-    @Step
+    @Epic("EVENTS")
+    @Feature("Search")
+    @Story("Search upcoming events")
     public void upcomingEventsTest() { //ТЕСТ 3
         logger.info("Test 3 started: ");
 
@@ -79,7 +86,9 @@ public class OtusFinal_HW_Test extends BaseHooks {
     }
 
     @Test
-    @Step
+    @Epic("TALKS LIBRARY")
+    @Feature("Search")
+    @Story("Search upcoming by country")
     public void upcomingEventsCanadaTest() { //ТЕСТ 4
         logger.info("Test 4 started: ");
 
@@ -103,7 +112,9 @@ public class OtusFinal_HW_Test extends BaseHooks {
     }
 
     @Test
-    @Step
+    @Epic("TALKS LIBRARY")
+    @Feature("Search")
+    @Story("Search by category")
     public void categoryTest() {                                                          //ТЕСТ 5 (Вариант с проверкой одной карточки)
         logger.info("Test 5/1 started: ");
         VideoPage videoPage = new VideoPage(driver);
@@ -143,7 +154,9 @@ public class OtusFinal_HW_Test extends BaseHooks {
     }*/
 
     @Test
-    @Step
+    @Epic("TALKS LIBRARY")
+    @Feature("Search")
+    @Story("Search by text")
     public void searchTest() { //ТЕСТ 6
         logger.info("Test 6 started: ");
 

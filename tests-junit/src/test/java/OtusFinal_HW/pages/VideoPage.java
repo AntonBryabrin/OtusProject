@@ -52,18 +52,13 @@ public class VideoPage extends AbstractPage {
         return cards;
     }
 
-
-
-
     public VideoPage openVideoPage() {
 
         config = ConfigFactory.create(TestConfig.class);
         driver.get(config.eventsPage());
         logger.info("main page opened");
-
         driver.findElement(videoLinkLocator).click();
         logger.info("Talks Library page opened");
-
         return this;
     }
 
@@ -99,41 +94,32 @@ public class VideoPage extends AbstractPage {
         WebDriverWait wait = new WebDriverWait(driver, 5);
 
         driver.findElement(filterLanguageLocator).click();
-
         logger.info("Language dropdown opened");
         wait.until(ExpectedConditions.invisibilityOfElementLocated(preloaderLocator));
-
         driver.findElement(dropdownEnglishLocalor).click();
         logger.info("English language selected");
         wait.until(ExpectedConditions.invisibilityOfElementLocated(preloaderLocator));
-
         driver.findElement(By.xpath("//input[@placeholder='Search by Talk Name']")).click();
         wait.until(ExpectedConditions.invisibilityOfElementLocated(preloaderLocator));
-
         return this;
     }
 
     public VideoPage openCard(){
         driver.findElement(eventNameCardLocator).click();
         logger.info("Click on events link");
-
         return this;
     }
 
     public String getEventLanguageOnPage() { //Поиск языка мероприятия на странице
         WebDriverWait wait = new WebDriverWait(driver, 5);
-
         String language = driver.findElement(eventLanguagePageLocator).getText();
         logger.info("language on page: " + language);
         wait.until(ExpectedConditions.invisibilityOfElementLocated(preloaderLocator));
-
         return language;
     }
 
     public String getEventCountryOnPage() { //Поиск страны мероприятия на странице
-
         String location = driver.findElement(eventCountryPageLocator).getText();
-
         return location;
     }
 
@@ -150,40 +136,31 @@ public class VideoPage extends AbstractPage {
         videoPage.filerByTesting();
         videoPage.filerByBelarus();
         videoPage.filerByEnglish();;
-
         return this;
     }
 
-    public ArrayList<String> getCardsLinks() {
-
-
+    /*public ArrayList<String> getCardsLinks() {
         List<WebElement> cards = driver.findElements(By.xpath("//div[@class='evnt-talk-card']/a"));
-
         ArrayList<String> people = new ArrayList<String>();
 
         for (WebElement card : cards) {
             card.getText();
-
             String link = card.getAttribute("href");
             System.out.println(link);
             people.add(link);
         }
-
         return people;
-
     }
 
     public VideoPage openEventCard(String card){
         System.out.println("open link "+ card.toString());
             driver.get(card.toString());
-
-
         return this;
 
 
-    }
+    }*/
 
-        public ArrayList<String> getCardsNames(){
+        /*public ArrayList<String> getCardsNames(){
 
             List<WebElement> cards = getEventsCards();
             ArrayList<String> eventName = new ArrayList<String>();
@@ -194,7 +171,7 @@ public class VideoPage extends AbstractPage {
             }
 
       return eventName;
-    }
+    }*/
 
     public VideoPage searchText(String textForSearch){
 
