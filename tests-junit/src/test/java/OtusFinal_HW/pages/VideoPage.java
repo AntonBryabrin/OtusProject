@@ -42,9 +42,6 @@ public class VideoPage extends AbstractPage {
         super(driver);
     }
 
-
-
-
     public List<WebElement> getEventsCards() { //Ищем карточки мероприятия
         List<WebElement> cards = driver.findElements(eventCardLocator);
         return cards;

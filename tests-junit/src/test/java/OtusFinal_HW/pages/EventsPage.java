@@ -89,10 +89,10 @@ public class EventsPage extends AbstractPage {
         return EventCardWebElement.findElement(eventSingleSpeakerLocator).isDisplayed();
     }
 
-    public Long getEventDateEnd(WebElement card) { //  Используется в upcomingEventsTest
+    public Long getEventDateEnd(WebElement card) { // Получаем Дату мероприятия.
 
         String dateText = card.findElement(eventDateLocator).getText();
-        logger.info("Date on event: " + dateText);
+        logger.info("Dates on event: " + dateText);
 
         if (!dateText.matches("\\d{2} ([\\S]+) \\d{4}$")) {
             String[] array = dateText.split(" - ");
@@ -107,7 +107,7 @@ public class EventsPage extends AbstractPage {
         return dateEpoch;
     }
 
-    public Long getEpochDate (String dateText){
+    public Long getEpochDate (String dateText){ //Конвертируем дату мероприятия в epoch формат
         DateTimeFormatter dateFormatter = DateTimeFormatter.ofPattern("dd MMM u", Locale.ENGLISH);
         logger.info("End date is (not epoch) " + dateText);
         LocalDate date = LocalDate.parse(dateText, dateFormatter);
@@ -177,18 +177,6 @@ public class EventsPage extends AbstractPage {
         driver.findElement(dropdownCanadaLocalor).click();
         wait.until(ExpectedConditions.invisibilityOfElementLocated(preloaderLocator));
         driver.findElement(By.xpath("//div[@class='evnt-events-wrapper']")).click();
-        return this;
-    }
-
-    public EventsPage filerByEnglish() {
-
-        driver.findElement(filtersLocator).click();
-        logger.info("Открыты Дополнительные фильтры");
-        driver.findElement(filterLanguageLocator).click();
-        logger.info("Открыт дропдаун Языков");
-        driver.findElement(dropdownEnglishLocalor).click();
-        logger.info("Выбран английский язык");
-        driver.findElement(By.xpath("//input[@placeholder='Search by Event Name']")).click();
         return this;
     }
 
