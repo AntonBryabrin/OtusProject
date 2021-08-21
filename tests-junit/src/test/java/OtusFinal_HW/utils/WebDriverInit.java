@@ -7,15 +7,25 @@ import org.openqa.selenium.remote.RemoteWebDriver;
 
 import java.net.MalformedURLException;
 import java.net.URI;
+import java.util.Locale;
 
 
 public class WebDriverInit {
+
+
+
+    private static String browser = System.getProperty("browser","chrome");
+    private static String version = System.getProperty("version","90.0");
+
+
+
     public static WebDriver initDriver(){
         WebDriver driver = null;
 
         DesiredCapabilities capabilities = new DesiredCapabilities();
-        capabilities.setCapability("browserName", "chrome");
-        capabilities.setCapability("browserVersion", "91.0");
+
+        capabilities.setCapability("browserName", browser.toLowerCase(Locale.ROOT)); //Доступные варианты chrome, opera, firefox
+        capabilities.setCapability("browserVersion", version); //Доступные варианты chrome - (90.0,91.0), opera - (76.0,77.0), firefox - (89.0,90.0)
         capabilities.setCapability("enableVNC", true);
         capabilities.setCapability("enableVideo", true);
         capabilities.setCapability("enableLogs", true);

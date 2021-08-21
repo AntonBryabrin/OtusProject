@@ -1,6 +1,7 @@
 package OtusFinal_HW.cases;
 
 
+
 import io.qameta.allure.*;
 import org.aeonbits.owner.ConfigFactory;
 import org.apache.logging.log4j.LogManager;
@@ -109,7 +110,6 @@ public class OtusFinal_HW_Test extends BaseHooks {
         Allure.addAttachment("Test 4 Screen", new ByteArrayInputStream(((TakesScreenshot) driver).getScreenshotAs(OutputType.BYTES)));
 
         for (WebElement card : cardsList) {
-
             softly.assertThat(eventsPage.getEventDateEnd(card) < LocalDate.now().toEpochDay()).as("Check that the event date is earlier than the current");
         }
     }

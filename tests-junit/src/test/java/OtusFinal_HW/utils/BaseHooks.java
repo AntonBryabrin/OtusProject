@@ -21,10 +21,8 @@ public class BaseHooks {
     @BeforeClass
     public static void setup() {
 
-        // driver = WebDriverFactory.createDriverWithOptions(WebDriverType.CHROME, "start-maximized");
-         driver = initDriver();
-       // TestConfig config;
-       // config = ConfigFactory.create(configuration.TestConfig.class);
+        // driver = WebDriverFactory.createDriverWithOptions(WebDriverType.CHROME, "start-maximized"); //Использовать для запуска без Selenoid
+         driver = initDriver(); //Использовать для запуска через Selenoid. Для спецификации браузера - использовать -Dbrowser = "browser" -Dversion = "11"
 
         if (driver != null) {
             driver.manage().timeouts().implicitlyWait(10, TimeUnit.SECONDS);

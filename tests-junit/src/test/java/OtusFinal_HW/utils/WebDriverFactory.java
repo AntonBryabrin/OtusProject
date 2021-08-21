@@ -31,9 +31,6 @@ public class WebDriverFactory {
                 FirefoxOptions operaOptions = new FirefoxOptions();
                 operaOptions.addArguments(arguments);
                 return new OperaDriver(operaOptions);
-
-
-
             default:
                 return null;
         }
@@ -50,7 +47,6 @@ public class WebDriverFactory {
             case OPERA:
                 WebDriverManager.operadriver().setup();
                 return new OperaDriver();
-
 
             default:
                 return null;
